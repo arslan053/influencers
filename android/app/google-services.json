@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "349653941276",
+    "project_id": "influencers-8d4e4",
+    "storage_bucket": "influencers-8d4e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:349653941276:android:42dd3c92400dbae9e273d9",
+        "android_client_info": {
+          "package_name": "com.example.influencer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxj1RAbP1dbP4UMnAmP78gvxTU1gJDnco"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

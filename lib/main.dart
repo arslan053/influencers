@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:influencer/src/constants/colors.dart';
+import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
+import 'package:influencer/src/features/authentication/views/signup/signup_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,29 +14,29 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
           brightness: Brightness.light,
           primarySwatch: MaterialColor(
             0xFF77BC7B,
             <int, Color>{
-              50: Color(0xFF77BC7B),
-              100: Color(0xFF77BC7B),
-              200: Color(0xFF77BC7B),
-              300: Color(0xFF77BC7B),
-              400: Color(0xFF77BC7B),
-              500: Color(0xFF77BC7B),
-              600: Color(0xFF77BC7B),
-              700: Color(0xFF77BC7B),
-              800: Color(0xFF77BC7B),
-              900: Color(0xFF77BC7B),
+              50: myPrimaryColor,
+              100: myPrimaryColor,
+              200: myPrimaryColor,
+              300: myPrimaryColor,
+              400: myPrimaryColor,
+              500: myPrimaryColor,
+              600: myPrimaryColor,
+              700: myPrimaryColor,
+              800: myPrimaryColor,
+              900: myPrimaryColor,
             },
           ),
           secondaryHeaderColor: Colors.black),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.system,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const SignupScreen(),
     );
   }
 }
