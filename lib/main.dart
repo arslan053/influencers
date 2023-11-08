@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:influencer/src/constants/colors.dart';
 import 'package:influencer/src/features/BotttonNavigation/bottomNavigation.dart';
+import 'package:influencer/src/features/Profile/ProfileScreen.dart';
 
 
 void main() {
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
           secondaryHeaderColor: Colors.black),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.system,
-      home:  MyHomePage(),
+      home:  ViewProfile(),
     );
   }
 }
