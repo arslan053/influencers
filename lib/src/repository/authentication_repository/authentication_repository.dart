@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/features/authentication/views/signup/signup_screen.dart';
+import 'package:influencer/src/features/authentication/views/set_profile/set_profile_screen.dart';
 import 'package:influencer/src/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
 
 class AuthenticationRepository extends GetxController {
@@ -11,9 +12,10 @@ class AuthenticationRepository extends GetxController {
   late Rx<User?> firebaseUser;
 
   _setIntialScreen(User? user) {
-    user == null
-        ? Get.offAll(() => const LoginScreen())
-        : Get.offAll(() => const SignupScreen());
+    Get.offAll(() => const SignupScreen());
+    // user == null
+    //     ? Get.offAll(() => const SignupScreen())
+    //     : Get.offAll(() => const LoginScreen());
   }
 
   @override
@@ -30,7 +32,7 @@ class AuthenticationRepository extends GetxController {
       await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       firebaseUser.value != null
-          ? Get.offAll(() => const LoginScreen())
+          ? Get.offAll(() => SetProfileScreen(), arguments: email)
           : Get.offAll(() => const SignupScreen());
     } on FirebaseAuthException catch (e) {
       final ex = SignupWithEmailAndPasswordFailure.code(e.code);
@@ -44,6 +46,19 @@ class AuthenticationRepository extends GetxController {
   }
 
   Future<void> signinWithEmailAndPassword(String email, String password) async {
-    await _auth.signInWithEmailAndPassword(email: email, password: password);
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      firebaseUser.value != null
+          ? Get.offAll(() => const LoginScreen())
+          : Get.offAll(() => const SignupScreen());
+    } on FirebaseAuthException catch (e) {
+      final ex = SignupWithEmailAndPasswordFailure.code(e.code);
+      Get.snackbar("Error", ex.message);
+      throw ex;
+    } catch (_) {
+      final ex = SignupWithEmailAndPasswordFailure();
+      Get.snackbar("Error", ex.message);
+      throw ex;
+    }
   }
 }

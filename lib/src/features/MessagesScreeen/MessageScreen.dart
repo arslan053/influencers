@@ -17,28 +17,32 @@ class _MessageScreenState extends State<MessageScreen> {
         backgroundColor: Color(0XFF97CD9A),
         title: Text('Messages'),
         centerTitle: true,
-        
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal:16.0,vertical: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: SizedBox(
-          height: MediaQuery.sizeOf(context).height,
-          width: MediaQuery.sizeOf(context).width,
-            child: Column(
-              children: [
-                CustomSearchField(),
-                SizedBox(height: 20,),
-                Expanded(
-                  child: ListView.builder(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Column(
+            children: [
+              CustomSearchField(),
+              SizedBox(
+                height: 20,
+              ),
+              Expanded(
+                child: ListView.builder(
                     itemCount: 20,
-                    itemBuilder: (
-                    BuildContext context, index) {
-                    return const Inboxcard(image: 'assets/images/celebrity.png', title_text: 'Emma' ,subtitle_text: 'Hello mam, hope you are good .I hava do',);
-                  }
-                  ),
-                ),
-              ],
-            ),
+                    itemBuilder: (BuildContext context, index) {
+                      return const Inboxcard(
+                        image: 'assets/images/celebrity.png',
+                        title_text: 'Emma',
+                        subtitle_text:
+                            'Hello mam, hope you are good .I hava do',
+                      );
+                    }),
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -1,17 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:influencer/firebase_options.dart';
 import 'package:influencer/src/constants/colors.dart';
-import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
-import 'package:influencer/src/features/authentication/views/signup/signup_screen.dart';
-import 'package:influencer/src/features/BotttonNavigation/bottomNavigation.dart';
+import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
 
-void main() {
+import 'src/features/authentication/views/set_profile/set_profile_screen.dart';
+import 'src/features/authentication/views/signup/signup_screen.dart';
+import 'src/repository/influencer_repository/influencer_repository.dart';
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) => Get.put(AuthenticationRepository()));
+  Get.put(InfluencerRepository());
+  Get.put(AuthenticationRepository());
+
   runApp(const MyApp());
 }
 
@@ -43,7 +48,7 @@ class MyApp extends StatelessWidget {
           secondaryHeaderColor: Colors.black),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.system,
-      home: MyHomePage(),
+      home: SignupScreen(),
     );
   }
 }
