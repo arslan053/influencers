@@ -7,7 +7,7 @@ class UserModel {
   final String website;
   final String description;
   final String bio;
-  String? imageurl;
+  String? imageUrl;
   final double rating;
 
   UserModel(
@@ -20,7 +20,7 @@ class UserModel {
       required this.bio,
       required this.description,
       this.rating = 0,
-      this.imageurl});
+      this.imageUrl});
 
   toMap() {
     return {
@@ -32,7 +32,7 @@ class UserModel {
       "Description": description,
       "Bio": bio,
       "Rating": rating,
-      "ImageUrl": imageurl
+      "ImageUrl": imageUrl
     };
   }
 }
