@@ -1,3 +1,4 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ Future<void> main() async {
   await Firebase.initializeApp();
   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) => Get.put(AuthenticationRepository()));
+  await FirebaseAppCheck.instance.activate();
   Get.put(InfluencerRepository());
   Get.put(AuthenticationRepository());
 

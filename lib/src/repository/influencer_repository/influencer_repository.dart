@@ -13,23 +13,28 @@ class InfluencerRepository extends GetxController {
   static InfluencerRepository get instance => Get.find();
   final _db = FirebaseFirestore.instance;
   FirebaseStorage _storage = FirebaseStorage.instance;
+  late String? imageUrl;
 
   createInfluencer(UserModel user, Uint8List image) async {
     await Firebase.initializeApp();
 
     try {
-      user.imageurl =
-          await uploadImageToStorage("inprofileImage", image).toString();
+      imageUrl = null;
+      uploadImageToStorage("influenceraProfileImage", image).toString();
+      if (imageUrl != null) {
+        user.imageUrl = imageUrl;
+      }
       final influencerUser = user.toMap();
       await _db
           .collection("Influencers")
           .add(influencerUser)
           .whenComplete(() => Get.snackbar(
               "Success:", "Your account has been created",
-              backgroundColor: Colors.green.withOpacity(0.5)))
+              backgroundColor:
+                  Color.fromARGB(255, 33, 41, 34).withOpacity(0.5)))
           .catchError((error, stacktrace) {
         Get.snackbar("Error", "Something went wrong, try again",
-            backgroundColor: Colors.redAccent.withOpacity(0.1));
+            backgroundColor: Colors.redAccent.withOpacity(0.5));
       });
     } catch (e) {
       print("Error in createInfluencer: $e");
@@ -40,8 +45,12 @@ class InfluencerRepository extends GetxController {
     await Firebase.initializeApp();
 
     try {
-      user.imageurl =
-          await uploadImageToStorage("myprofileImage", image).toString();
+      imageUrl = null;
+      uploadImageToStorage("influenceraProfileImage", image).toString();
+      if (imageUrl != null) {
+        user.imageUrl = imageUrl;
+      }
+      user.imageUrl = imageUrl;
       final brandUser = user.toMap();
       await _db
           .collection("Brands")
@@ -51,7 +60,7 @@ class InfluencerRepository extends GetxController {
               backgroundColor: Colors.green.withOpacity(0.5)))
           .catchError((error, stacktrace) {
         Get.snackbar("Error", "Something went wrong, try again",
-            backgroundColor: Colors.redAccent.withOpacity(0.1));
+            backgroundColor: Colors.redAccent.withOpacity(0.5));
       });
     } catch (e) {
       print("Error in createInfluencer: $e");
@@ -59,10 +68,13 @@ class InfluencerRepository extends GetxController {
   }
 
   Future<String> uploadImageToStorage(String childName, Uint8List file) async {
-    Reference ref = _storage.ref().child(childName);
+    final fileName = '${childName}/${DateTime.now().millisecondsSinceEpoch}';
+
+    Reference ref = _storage.ref().child(fileName);
     UploadTask uploadTask = ref.putData(file);
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();
+    imageUrl = downloadUrl;
     return downloadUrl;
   }
 }

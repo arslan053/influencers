@@ -21,7 +21,7 @@ class SetProfileScreen extends StatelessWidget {
     final height = MediaQuery.of(context).size.height;
 
     void selectImage() async {
-      Uint8List img = await pickImage(ImageSource.gallery);
+      Uint8List img = await imagePick(ImageSource.gallery);
       controller.image.value = img;
     }
 
