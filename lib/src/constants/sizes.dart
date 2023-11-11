@@ -8,3 +8,5 @@ const borderWidth = 3.0;
 const largeSize2 = 100.0;
 const largeContainerSize = 500.0;
 const mediumContanerSize = 300.0;
+const paddingmedium = 15.0;
+const paddingsmall = 5.0;

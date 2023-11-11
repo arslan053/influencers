@@ -8,8 +8,8 @@ import 'package:influencer/src/features/authentication/views/set_profile/set_pro
 import 'package:influencer/src/repository/influencer_repository/influencer_repository.dart';
 import '../../../../constants/colors.dart';
 
-class profile_setup_form extends StatelessWidget {
-  const profile_setup_form({
+class ProfileSetupForm extends StatelessWidget {
+  const ProfileSetupForm({
     Key? key,
   }) : super(key: key);
 

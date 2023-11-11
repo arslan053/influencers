@@ -9,7 +9,10 @@ import 'package:influencer/src/features/ChatScreen/ChatScteen.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
 
-
+import 'src/features/Dashboard/DashboardScreen.dart';
+import 'src/features/authentication/views/login/login_screen.dart';
+import 'src/features/authentication/views/set_profile/set_profile_screen.dart';
+import 'src/features/authentication/views/signup/signup_screen.dart';
 import 'src/repository/influencer_repository/influencer_repository.dart';
 
 Future<void> main() async {
@@ -52,7 +55,7 @@ class MyApp extends StatelessWidget {
           secondaryHeaderColor: Colors.black),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.system,
-      home:  LoginScreen(),
+      home: LoginScreen(),
     );
   }
 }
