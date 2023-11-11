@@ -12,7 +12,7 @@ class AuthenticationRepository extends GetxController {
   late Rx<User?> firebaseUser;
 
   _setIntialScreen(User? user) {
-    Get.offAll(() => const SignupScreen());
+    Get.offAll(() => const LoginScreen());
     // user == null
     //     ? Get.offAll(() => const SignupScreen())
     //     : Get.offAll(() => const LoginScreen());

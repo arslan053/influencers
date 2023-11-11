@@ -25,7 +25,6 @@ class LoginForm extends StatelessWidget {
                 hintText: "Email",
                 prefixIcon: Icon(
                   Icons.email,
-                  color: blackColor,
                 ),
               ),
             ),
@@ -40,11 +39,11 @@ class LoginForm extends StatelessWidget {
                 hintText: "Password",
                 prefixIcon: Icon(
                   Icons.fingerprint,
-                  color: blackColor,
+                  
                 ),
                 suffixIcon: Icon(
                   Icons.remove_red_eye_sharp,
-                  color: Colors.black,
+                  
                 ),
               ),
             ),
@@ -53,7 +52,7 @@ class LoginForm extends StatelessWidget {
             ),
             const Align(
                 alignment: Alignment.centerRight,
-                child: Text("Forget Password")),
+                child: Text("Forget Password",)),
             const SizedBox(
               height: smallSize - 10,
             ),
