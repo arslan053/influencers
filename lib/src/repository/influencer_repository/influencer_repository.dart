@@ -18,8 +18,7 @@ class InfluencerRepository extends GetxController {
     await Firebase.initializeApp();
 
     try {
-      imageUrl = null;
-      uploadImageToStorage("influenceraProfileImage", image).toString();
+      await uploadImageToStorage("nfluenceraProfileImage", image);
       if (imageUrl != null) {
         user.imageUrl = imageUrl;
       }
@@ -44,8 +43,7 @@ class InfluencerRepository extends GetxController {
     await Firebase.initializeApp();
 
     try {
-      imageUrl = null;
-      uploadImageToStorage("influenceraProfileImage", image).toString();
+      await uploadImageToStorage("bnfluenceraProfileImage", image);
       if (imageUrl != null) {
         user.imageUrl = imageUrl;
       }
@@ -67,13 +65,48 @@ class InfluencerRepository extends GetxController {
   }
 
   Future<String> uploadImageToStorage(String childName, Uint8List file) async {
-    final fileName = '${childName}/${DateTime.now().millisecondsSinceEpoch}';
-
+    imageUrl = null;
+    final fileName = '$childName/${DateTime.now().millisecondsSinceEpoch}';
     Reference ref = _storage.ref().child(fileName);
     UploadTask uploadTask = ref.putData(file);
     TaskSnapshot snapshot = await uploadTask;
     String downloadUrl = await snapshot.ref.getDownloadURL();
     imageUrl = downloadUrl;
     return downloadUrl;
+  }
+
+  // to fetch the userdetail
+  Future<UserModel> getInfluencerDetails(String email) async {
+    final snapshot = await _db
+        .collection("Influencers")
+        .where("Email", isEqualTo: email)
+        .get();
+    print(snapshot);
+    final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
+    return userData;
+  }
+
+  //To fetch the list of Userdata
+  Future<List<UserModel>> getAllInfluencers() async {
+    final snapshot = await _db.collection("Influencers").get();
+    final usersData =
+        snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
+    return usersData;
+  }
+
+  // to fetch the userdetail
+  Future<UserModel> getBrandDetails(String email) async {
+    final snapshot =
+        await _db.collection("Brands").where("Email", isEqualTo: email).get();
+    final userData = snapshot.docs.map((e) => UserModel.fromSnapshot(e)).single;
+    return userData;
+  }
+
+  //To fetch the list of Userdata
+  Future<List<UserModel>> getAllBrands() async {
+    final snapshot = await _db.collection("Brands").get();
+    final usersData =
+        snapshot.docs.map((e) => UserModel.fromSnapshot(e)).toList();
+    return usersData;
   }
 }

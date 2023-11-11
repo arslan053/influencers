@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:influencer/src/features/Dashboard/DashboardScreen.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/features/authentication/views/signup/signup_screen.dart';
 import 'package:influencer/src/features/authentication/views/set_profile/set_profile_screen.dart';
@@ -9,6 +11,7 @@ class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
 
   final _auth = FirebaseAuth.instance;
+  final _db = FirebaseFirestore.instance;
   late Rx<User?> firebaseUser;
 
   _setIntialScreen(User? user) {
@@ -23,6 +26,7 @@ class AuthenticationRepository extends GetxController {
     super.onReady();
     firebaseUser = Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
+    print(firebaseUser);
     ever(firebaseUser, _setIntialScreen); // it is always ready to do action
   }
 
@@ -49,7 +53,7 @@ class AuthenticationRepository extends GetxController {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
       firebaseUser.value != null
-          ? Get.offAll(() => const LoginScreen())
+          ? Get.offAll(() => const DashboardScreen())
           : Get.offAll(() => const SignupScreen());
     } on FirebaseAuthException catch (e) {
       final ex = SignupWithEmailAndPasswordFailure.code(e.code);

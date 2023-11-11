@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:influencer/src/Utils/CategoryCard.dart';
 import 'package:influencer/src/Utils/CustomSearchbar.dart';
 import 'package:influencer/src/Utils/InfluencerCard.dart';
+import 'package:influencer/src/features/campaigns/views/create_campaign.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -13,15 +15,17 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: UserAccountsDrawerHeader(accountName:Text('data'), accountEmail:Text('data')),
+      key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
         leading: InkWell(
             onTap: (() {
-              Scaffold.of(context).openDrawer();
+              Get.to(CreateCampaign());
             }),
             child: Image.asset('assets/images/menu.png')),
       ),
@@ -37,7 +41,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     style: TextStyle(
                         fontFamily: GoogleFonts.ubuntu.toString(),
                         fontSize: 32)),
-                SizedBox(
+                const SizedBox(
                   width: 4,
                 ),
                 Text('Influencer',
@@ -48,11 +52,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           CustomSearchField(),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           Padding(
@@ -72,7 +76,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
@@ -140,4 +144,3 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-

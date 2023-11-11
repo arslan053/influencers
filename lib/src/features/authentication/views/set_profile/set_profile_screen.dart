@@ -54,14 +54,14 @@ class SetProfileScreen extends StatelessWidget {
                           );
                   }),
                   Positioned(
+                    bottom: 0,
+                    left: 80,
                     child: IconButton(
                       icon: Icon(Icons.add_a_photo),
                       onPressed: () {
                         selectImage();
                       },
                     ),
-                    bottom: 0,
-                    left: 80,
                   ),
                 ],
               ),
@@ -82,7 +82,7 @@ class SetProfileScreen extends StatelessWidget {
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: smallSize),
                       ),
-                      profile_setup_form(),
+                      ProfileSetupForm(),
                     ],
                   ),
                 )),
