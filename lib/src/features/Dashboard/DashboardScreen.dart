@@ -16,11 +16,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: UserAccountsDrawerHeader(accountName:Text('data'), accountEmail:Text('data')),
       appBar: AppBar(
         elevation: 0,
         leading: InkWell(
             onTap: (() {
-              MyDrawer();
+              Scaffold.of(context).openDrawer();
             }),
             child: Image.asset('assets/images/menu.png')),
       ),
@@ -140,40 +141,3 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 }
 
-class MyDrawer extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Drawer(
-      child: ListView(
-        children: <Widget>[
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text(
-              'Drawer Header',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
-              ),
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home'),
-            onTap: () {
-              // Add your navigation logic here
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () {
-              // Add your navigation logic here
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
