@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:influencer/src/features/Dashboard/DashboardScreen.dart';
 import 'package:influencer/src/features/authentication/model/user_model.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -23,14 +24,11 @@ class InfluencerRepository extends GetxController {
         user.imageUrl = imageUrl;
       }
       final influencerUser = user.toMap();
-      await _db
-          .collection("Influencers")
-          .add(influencerUser)
-          .whenComplete(() => Get.snackbar(
-              "Success:", "Your account has been created",
-              backgroundColor:
-                  Color.fromARGB(255, 33, 41, 34).withOpacity(0.5)))
-          .catchError((error, stacktrace) {
+      await _db.collection("Influencers").add(influencerUser).whenComplete(() {
+        Get.offAll(DashboardScreen());
+        Get.snackbar("Success:", "Your account has been created",
+            backgroundColor: Color.fromARGB(255, 33, 41, 34).withOpacity(0.5));
+      }).catchError((error, stacktrace) {
         Get.snackbar("Error", "Something went wrong, try again",
             backgroundColor: Colors.redAccent.withOpacity(0.5));
       });
@@ -49,13 +47,11 @@ class InfluencerRepository extends GetxController {
       }
       user.imageUrl = imageUrl;
       final brandUser = user.toMap();
-      await _db
-          .collection("Brands")
-          .add(brandUser)
-          .whenComplete(() => Get.snackbar(
-              "Success:", "Your account has been created",
-              backgroundColor: Colors.green.withOpacity(0.5)))
-          .catchError((error, stacktrace) {
+      await _db.collection("Brands").add(brandUser).whenComplete(() {
+        Get.offAll(DashboardScreen());
+        Get.snackbar("Success:", "Your account has been created",
+            backgroundColor: Color.fromARGB(255, 33, 41, 34).withOpacity(0.5));
+      }).catchError((error, stacktrace) {
         Get.snackbar("Error", "Something went wrong, try again",
             backgroundColor: Colors.redAccent.withOpacity(0.5));
       });

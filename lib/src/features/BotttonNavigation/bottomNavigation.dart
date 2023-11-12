@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:influencer/src/features/Campaign/CampaignScreen.dart';
 import 'package:influencer/src/features/Dashboard/DashboardScreen.dart';
 import 'package:influencer/src/features/MessagesScreeen/MessageScreen.dart';
 import 'package:influencer/src/features/Wallet/WalletScreen.dart';
 
+import '../campaigns/views/CampaignScreen.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: Icon(Icons.campaign),
             label: 'Campaign',
           ),
-           BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.wallet),
             label: 'Wallet',
           ),

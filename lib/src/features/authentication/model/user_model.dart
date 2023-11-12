@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
   final String? id;
+  String? userId;
+  String? role;
   final String name;
   final String username;
   final String email;
@@ -14,6 +16,7 @@ class UserModel {
 
   UserModel(
       {this.id,
+      this.userId,
       required this.name,
       required this.username,
       required this.email,
@@ -22,10 +25,12 @@ class UserModel {
       required this.bio,
       required this.description,
       this.rating = 0,
-      this.imageUrl});
+      this.imageUrl,
+      this.role});
 
   toMap() {
     return {
+      "UserId": userId,
       "Name": name,
       "UserName": username,
       "Email": email,
@@ -34,7 +39,8 @@ class UserModel {
       "Description": description,
       "Bio": bio,
       "Rating": rating,
-      "ImageUrl": imageUrl
+      "ImageUrl": imageUrl,
+      "Role": role
     };
   }
 
@@ -45,6 +51,7 @@ class UserModel {
         .data()!; //.get provide typical data i.e email and data provides document
     return UserModel(
         id: document.id,
+        userId: data["UserId"],
         name: data["Name"],
         username: data["UserName"],
         email: data["Email"],
@@ -52,7 +59,8 @@ class UserModel {
         website: data["Website"],
         bio: data["Bio"],
         description: data["Description"],
-        rating: data["Rting"],
-        imageUrl: data["ImageUrl"]);
+        rating: data["Rating"],
+        imageUrl: data["ImageUrl"],
+        role: data["Role"]);
   }
 }
