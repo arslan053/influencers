@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:influencer/src/constants/colors.dart';
 import 'package:influencer/src/constants/sizes.dart';
+import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/features/authentication/views/signup/signup_form.dart';
 
 class SignupScreen extends StatelessWidget {
@@ -43,7 +45,16 @@ class SignupScreen extends StatelessWidget {
                         const Padding(
                           padding: EdgeInsets.symmetric(horizontal: smallSize),
                         ),
-                        SignupForm()
+                        SignupForm(),
+                        const SizedBox(
+                          height: mediumlSize,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Get.to(LoginScreen());
+                          },
+                          child: Text("Alredy have account? Signin"),
+                        )
                       ],
                     ),
                   )),

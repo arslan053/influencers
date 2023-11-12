@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:influencer/src/constants/colors.dart';
 import 'package:influencer/src/constants/sizes.dart';
+import 'package:influencer/src/features/authentication/controllers/signup_controller.dart';
 
 class SignupForm extends StatelessWidget {
   const SignupForm({
@@ -9,10 +11,12 @@ class SignupForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(SignupController());
     return Form(
         child: Column(
       children: [
         TextFormField(
+          controller: controller.name,
           decoration: const InputDecoration(
             hintText: "Name",
             prefixIcon: Icon(
@@ -25,6 +29,7 @@ class SignupForm extends StatelessWidget {
           height: smallSize,
         ),
         TextFormField(
+          controller: controller.username,
           decoration: const InputDecoration(
             hintText: "User Name",
             prefixIcon: Icon(
@@ -37,6 +42,7 @@ class SignupForm extends StatelessWidget {
           height: smallSize,
         ),
         TextFormField(
+          controller: controller.email,
           decoration: const InputDecoration(
             hintText: "Email",
             prefixIcon: Icon(
@@ -49,6 +55,7 @@ class SignupForm extends StatelessWidget {
           height: smallSize,
         ),
         TextFormField(
+          controller: controller.phonenumber,
           decoration: const InputDecoration(
             hintText: "Phone",
             prefixIcon: Icon(
@@ -61,6 +68,7 @@ class SignupForm extends StatelessWidget {
           height: smallSize,
         ),
         TextFormField(
+          controller: controller.password,
           decoration: const InputDecoration(
             hintText: "Password",
             prefixIcon: Icon(
@@ -93,12 +101,15 @@ class SignupForm extends StatelessWidget {
         ),
         SizedBox(
             width: double.infinity,
-            child:
-                ElevatedButton(onPressed: () {}, child: const Text("Sign Up"))),
+            child: ElevatedButton(
+                onPressed: () {
+                  SignupController.instance.registerUser(
+                      controller.email.text.trim(), controller.password.text);
+                },
+                child: const Text("Sign Up"))),
         const SizedBox(
           height: smallSize,
         ),
-        Text("Already have Account? Login"),
       ],
     ));
   }

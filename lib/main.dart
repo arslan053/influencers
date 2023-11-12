@@ -1,11 +1,26 @@
+import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get/get.dart';
+import 'package:influencer/firebase_options.dart';
 import 'package:influencer/src/constants/colors.dart';
 import 'package:influencer/src/features/BotttonNavigation/bottomNavigation.dart';
 import 'package:influencer/src/features/Profile/ProfileScreen.dart';
+import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
+import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
+import 'src/repository/campaign_repository.dart/campaign_repository.dart';
+import 'src/repository/influencer_repository/influencer_repository.dart';
 
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+      .then((value) => Get.put(AuthenticationRepository()));
+  await FirebaseAppCheck.instance.activate();
+  Get.put(InfluencerRepository());
+  Get.put(AuthenticationRepository());
+  Get.put(CampaignRepository());
 
-void main() {
   runApp(const MyApp());
 }
 
@@ -19,7 +34,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
           brightness: Brightness.light,
-          primarySwatch: MaterialColor(
+          primarySwatch: const MaterialColor(
             0xFF77BC7B,
             <int, Color>{
               50: myPrimaryColor,
@@ -37,8 +52,8 @@ class MyApp extends StatelessWidget {
           secondaryHeaderColor: Colors.black),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.system,
-      home:  ViewProfile(),
+
+      home: LoginScreen(),
     );
   }
 }
-
