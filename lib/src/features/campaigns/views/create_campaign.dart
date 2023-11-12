@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:influencer/src/constants/sizes.dart';
+import 'package:influencer/src/features/campaigns/model/campain_model.dart';
+
+import '../controller/campaign_controller.dart';
 
 class CreateCampaign extends StatelessWidget {
-  const CreateCampaign({Key? key}) : super(key: key);
+  CreateCampaign({Key? key}) : super(key: key);
 
+  final controller = Get.put(CampaignController());
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
@@ -41,6 +45,7 @@ class CreateCampaign extends StatelessWidget {
                   child: Column(
                 children: [
                   TextFormField(
+                    controller: controller.description,
                     maxLines: 7,
                     decoration: const InputDecoration(
                       hintText: "e.g delievery rquirenments timetable",
@@ -72,11 +77,10 @@ class CreateCampaign extends StatelessWidget {
                           Container(
                             width: 70,
                             height: 35,
-                            child: const Expanded(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                ),
+                            child: TextField(
+                              controller: controller.totalPrice,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
                               ),
                             ),
                           )
@@ -109,8 +113,9 @@ class CreateCampaign extends StatelessWidget {
                           Container(
                             width: 70,
                             height: 35,
-                            child: const Expanded(
+                            child: Expanded(
                               child: TextField(
+                                controller: controller.delieveryTime,
                                 decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                 ),
@@ -128,7 +133,7 @@ class CreateCampaign extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Expiry Date?",
+                        "Expire in?",
                         style: TextStyle(
                             fontFamily: GoogleFonts.ubuntu.toString(),
                             fontSize: smallSize,
@@ -146,11 +151,10 @@ class CreateCampaign extends StatelessWidget {
                           Container(
                             width: 70,
                             height: 35,
-                            child: const Expanded(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  border: OutlineInputBorder(),
-                                ),
+                            child: TextField(
+                              controller: controller.expireInDays,
+                              decoration: InputDecoration(
+                                border: OutlineInputBorder(),
                               ),
                             ),
                           )
@@ -164,7 +168,16 @@ class CreateCampaign extends StatelessWidget {
                   Container(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: () {}, child: Text("Launch")))
+                          onPressed: () {
+                            final campaign = CampaignModel(
+                                description: controller.description.text,
+                                totalPrice: controller.totalPrice.text,
+                                delieveryTime: controller.delieveryTime.text,
+                                expireInDays: controller.expireInDays.text);
+                            CampaignController.instance
+                                .createCampaign(campaign);
+                          },
+                          child: Text("Launch")))
                 ],
               ))
             ]),

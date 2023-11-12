@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:influencer/src/Utils/CategoryCard.dart';
 import 'package:influencer/src/Utils/CustomSearchbar.dart';
 import 'package:influencer/src/Utils/InfluencerCard.dart';
-import 'package:influencer/src/features/campaigns/views/create_campaign.dart';
+import 'package:influencer/src/features/Dashboard/my_drawer.dart';
+import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -15,20 +16,18 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _scaffoldKey,
+      drawer: MyDrawer(),
       appBar: AppBar(
-        elevation: 0,
-        leading: InkWell(
-            onTap: (() {
-              Get.to(CreateCampaign());
-            }),
-            child: Image.asset('assets/images/menu.png')),
-      ),
+          // elevation: 0,
+          // leading: InkWell(
+          //     onTap: (() {
+          //       Get.to(CreateCampaign());
+          //     }),
+          //     child: Image.asset('assets/images/menu.png')),
+          ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -128,8 +127,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 scrollDirection: Axis.horizontal,
                 itemCount: 4,
                 itemBuilder: (BuildContext context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10.0),
+                  return const Padding(
+                    padding: EdgeInsets.all(10.0),
                     child: InfluencerCard(
                         path: 'assets/images/influencer.png',
                         category: 'Fashion & lifeStyle',

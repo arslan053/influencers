@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:influencer/src/constants/colors.dart';
 import 'package:influencer/src/constants/sizes.dart';
 import 'package:influencer/src/features/authentication/views/login/loginForm.dart';
+import 'package:influencer/src/features/authentication/views/signup/signup_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -29,7 +31,7 @@ class LoginScreen extends StatelessWidget {
                   height: largeContainerSize,
                   width: size.width * 0.9,
                   decoration: BoxDecoration(
-                      color: blackColor,
+                      color: whiteColor,
                       borderRadius: BorderRadius.circular(mediumlSize - 5)),
                   child: Column(
                     children: [
@@ -45,6 +47,15 @@ class LoginScreen extends StatelessWidget {
                         padding: EdgeInsets.symmetric(horizontal: smallSize),
                         child: LoginForm(),
                       ),
+                      const SizedBox(
+                        height: mediumlSize,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.to(SignupScreen());
+                        },
+                        child: Text("Dont have Account? Signup"),
+                      )
                     ],
                   )),
             ],

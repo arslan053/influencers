@@ -110,7 +110,6 @@ class SignupForm extends StatelessWidget {
         const SizedBox(
           height: smallSize,
         ),
-        Text("Already have Account? Login"),
       ],
     ));
   }
