@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:influencer/firebase_options.dart';
 import 'package:influencer/src/constants/colors.dart';
+import 'package:influencer/src/features/BotttonNavigation/bottomNavigation.dart';
+import 'package:influencer/src/features/Profile/ProfileScreen.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
 import 'src/repository/campaign_repository.dart/campaign_repository.dart';
@@ -50,6 +52,7 @@ class MyApp extends StatelessWidget {
           secondaryHeaderColor: Colors.black),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: ThemeMode.system,
+
       home: LoginScreen(),
     );
   }

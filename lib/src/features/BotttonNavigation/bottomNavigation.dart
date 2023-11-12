@@ -35,14 +35,14 @@ class _MyHomePageState extends State<MyHomePage> {
         fixedColor: Colors.green.shade200,
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
-        items: [
+        items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.message),
-            label: 'Search',
+            label: 'Messages',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.campaign),
