@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:influencer/src/features/campaigns/views/create_campaign.dart';
+import 'package:influencer/src/features/profile/ProfileScreen.dart';
 
 import '../../repository/authentication_repository/authentication_repository.dart';
 
@@ -30,7 +31,9 @@ Drawer MyDrawer() {
         ListTile(
           title: const Text("Profile"),
           trailing: Icon(Icons.person),
-          onTap: () {},
+          onTap: () {
+            Get.to(ViewProfile());
+          },
         ),
         ListTile(
           title: const Text("My Campaigns"),
