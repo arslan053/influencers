@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:influencer/src/Utils/CategoryCard.dart';
 import 'package:influencer/src/Utils/CustomSearchbar.dart';
 import 'package:influencer/src/Utils/InfluencerCard.dart';
 import 'package:influencer/src/features/Dashboard/my_drawer.dart';
-import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -19,7 +16,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       drawer: MyDrawer(),
       appBar: AppBar(
           // elevation: 0,
@@ -144,4 +140,3 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-
