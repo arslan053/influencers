@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:influencer/src/features/BotttonNavigation/bottomNavigation.dart';
 import 'package:influencer/src/features/Dashboard/DashboardScreen.dart';
 import 'package:influencer/src/features/admin/views/admin_dashboard.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
@@ -27,11 +28,13 @@ class AuthenticationRepository extends GetxController {
       final myuser = await getCurrentUser(firebaseUser.value?.uid.toString());
       currentUser = myuser;
       if (currentUser != null) {
-        Get.offAll(() => const AdminDashboard());
+
+        Get.offAll(() =>  MyHomePage());
       }
     } else {
-      Get.offAll(() => const AdminDashboard());
+      Get.offAll(() =>  MyHomePage());
     }
+      
   }
 
   @override

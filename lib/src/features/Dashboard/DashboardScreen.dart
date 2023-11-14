@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:influencer/src/Utils/CategoryCard.dart';
 import 'package:influencer/src/Utils/CustomSearchbar.dart';
 import 'package:influencer/src/Utils/InfluencerCard.dart';
 import 'package:influencer/src/features/Dashboard/my_drawer.dart';
+import 'package:influencer/src/features/authentication/model/user_model.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({Key? key}) : super(key: key);
@@ -15,6 +18,19 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
+    final db =  FirebaseFirestore.instance.collection('Influencers').get().asStream();
+    dynamic user;
+    Future<void> fetchData() async {
+  final userDoc = FirebaseFirestore.instance.collection('users').doc('userId'); // Replace 'userId' with the actual user ID
+  final userSnapshot = await userDoc.get();
+   user = UserModel.fromSnapshot(userSnapshot); // Rest of your code using the 'user' object
+}
+
+     @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
     return Scaffold(
       drawer: MyDrawer(),
       appBar: AppBar(
@@ -117,24 +133,44 @@ class _DashboardScreenState extends State<DashboardScreen> {
           SizedBox(
             height: 20,
           ),
-          Container(
-            height: 280,
-            width: MediaQuery.of(context).size.width,
-            child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: 4,
-                itemBuilder: (BuildContext context, index) {
-                  return const Padding(
-                    padding: EdgeInsets.all(10.0),
-                    child: InfluencerCard(
-                        path: 'assets/images/influencer.png',
-                        category: 'Fashion & lifeStyle',
-                        rating: '4.5',
-                        name: 'Emily Watson',
-                        order: '63'),
-                  );
-                }),
-          ),
+          StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+  stream: db,
+  builder: (context, AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>> snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      // Handle the loading state
+      return CircularProgressIndicator();
+    } else if (snapshot.hasError) {
+      // Handle the error state
+      return Text('Error: ${snapshot.error}');
+    } else {
+      // Data is ready
+      final data = snapshot.data?.docs; // Explicitly cast to QuerySnapshot
+      return Container(
+        height: 280,
+        width: MediaQuery.of(context).size.width,
+        child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: data?.length,
+          itemBuilder: (BuildContext context, index) {
+            // Use data[index] to access individual documents
+            final document = data?[index];
+            return Padding(
+              padding: EdgeInsets.all(10.0),
+              child: InfluencerCard(
+                path: document?['ImageUrl'],
+                category: document?['Role'],
+                rating: '4.5',
+                name: document?['Name'],
+                order: '63',
+              ),
+            );
+          },
+        ),
+      );
+    }
+  },
+)
+
         ],
       ),
     );
