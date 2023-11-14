@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:influencer/src/features/Dashboard/DashboardScreen.dart';
+import 'package:influencer/src/features/admin/views/admin_dashboard.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/features/authentication/views/signup/signup_screen.dart';
 import 'package:influencer/src/features/authentication/views/set_profile/set_profile_screen.dart';
@@ -18,7 +19,7 @@ class AuthenticationRepository extends GetxController {
   UserModel? currentUser = null;
 
   _setIntialScreen(User? user) {
-    user == null ? Get.offAll(() => const LoginScreen()) : getuser();
+    user == null ? Get.offAll(() => const AdminDashboard()) : getuser();
   }
 
   getuser() async {
@@ -26,17 +27,17 @@ class AuthenticationRepository extends GetxController {
       final myuser = await getCurrentUser(firebaseUser.value?.uid.toString());
       currentUser = myuser;
       if (currentUser != null) {
-        Get.offAll(() => const DashboardScreen());
+        Get.offAll(() => const AdminDashboard());
       }
     } else {
-      Get.offAll(() => const DashboardScreen());
+      Get.offAll(() => const AdminDashboard());
     }
   }
 
   @override
   Future<void> onReady() async {
     super.onReady();
-    firebaseUser = Rx<User?>(_auth.currentUser);
+    firebaseUser = await Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
     print("the user id od user is ${firebaseUser.value?.uid.toString()}");
     // currentUser = await getCurrentUser(firebaseUser.value?.email);
