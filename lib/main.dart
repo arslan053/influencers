@@ -13,9 +13,11 @@ import 'src/repository/influencer_repository/influencer_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
+  // await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
       .then((value) => Get.put(AuthenticationRepository()));
+  await FirebaseAppCheck.instance.activate();
+  
   await FirebaseAppCheck.instance.activate();
   Get.put(InfluencerRepository());
   Get.put(AuthenticationRepository());

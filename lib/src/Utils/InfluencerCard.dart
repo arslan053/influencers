@@ -20,7 +20,7 @@ class InfluencerCard extends StatelessWidget {
         children: [
           Container(
             height: 173,
-            child: Image.asset(path),
+            child: Image.network(path,fit: BoxFit.cover,),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
