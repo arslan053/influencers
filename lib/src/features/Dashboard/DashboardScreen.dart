@@ -82,7 +82,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               width: MediaQuery.of(context).size.width,
               child: ListView(
                 scrollDirection: Axis.horizontal,
-                children: const [
+                children: [
                   CategoryCard(
                       path: 'assets/images/celebrity.png', text: 'Celeberity'),
                   CategoryCard(
