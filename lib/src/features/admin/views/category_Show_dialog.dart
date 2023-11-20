@@ -3,8 +3,8 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:influencer/src/features/admin/category/categories_controller.dart';
-import 'package:influencer/src/features/admin/category/category_model.dart';
+import 'package:influencer/src/features/admin/category/controller/categories_controller.dart';
+import 'package:influencer/src/features/admin/category/model/category_model.dart';
 
 import '../../../Utils/utils.dart';
 import '../../../constants/colors.dart';
@@ -57,7 +57,7 @@ Future<dynamic> ShowDialog(BuildContext context) {
                       bottom: 0,
                       left: 80,
                       child: IconButton(
-                        icon: Icon(Icons.add_a_photo),
+                        icon: const Icon(Icons.add_a_photo),
                         onPressed: () {
                           selectImage();
                         },
@@ -81,13 +81,13 @@ Future<dynamic> ShowDialog(BuildContext context) {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
             onPressed: () {
               Navigator.of(context).pop();
             },
           ),
           TextButton(
-            child: Text('Submit'),
+            child: const Text('Submit'),
             onPressed: () {
               // Save the form and retrieve the data.
 

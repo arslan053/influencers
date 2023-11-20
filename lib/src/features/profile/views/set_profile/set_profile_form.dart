@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:influencer/src/constants/sizes.dart';
-import 'package:influencer/src/features/authentication/controllers/set_profile_controller.dart';
-import 'package:influencer/src/features/authentication/model/user_model.dart';
-import 'package:influencer/src/features/authentication/views/set_profile/set_profile_screen.dart';
+import 'package:influencer/src/features/profile/controller/set_profile_controller.dart';
+import 'package:influencer/src/features/profile/model/profile_model.dart';
 import 'package:influencer/src/repository/influencer_repository/influencer_repository.dart';
 import '../../../../constants/colors.dart';
 
@@ -114,7 +113,7 @@ class ProfileSetupForm extends StatelessWidget {
                   width: largeSize2 + 10,
                   child: ElevatedButton(
                       onPressed: () {
-                        final influencer = UserModel(
+                        final influencer = ProfileModel(
                             name: controller.name.text.trim(),
                             username: controller.username.text,
                             email: Get.arguments.toString(),

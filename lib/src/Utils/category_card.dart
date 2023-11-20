@@ -23,7 +23,7 @@ class CategoryCard extends StatelessWidget {
             height: height,
             width: width,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-            child: Image.asset(
+            child: Image.network(
               path,
               fit: BoxFit.cover,
             )),

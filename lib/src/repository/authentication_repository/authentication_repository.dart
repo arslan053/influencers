@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:influencer/src/features/BotttonNavigation/bottomNavigation.dart';
-import 'package:influencer/src/features/Dashboard/DashboardScreen.dart';
-import 'package:influencer/src/features/admin/views/admin_dashboard.dart';
+import 'package:influencer/src/features/BotttonNavigation/views/bottom_navigation.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/features/authentication/views/signup/signup_screen.dart';
-import 'package:influencer/src/features/authentication/views/set_profile/set_profile_screen.dart';
 import 'package:influencer/src/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
 
-import '../../features/authentication/model/user_model.dart';
+import '../../features/profile/model/profile_model.dart';
+import '../../features/profile/views/set_profile/set_profile_screen.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -17,24 +15,12 @@ class AuthenticationRepository extends GetxController {
   final _auth = FirebaseAuth.instance;
   final _db = FirebaseFirestore.instance;
   late Rx<User?> firebaseUser;
-  UserModel? currentUser = null;
+  ProfileModel? currentUser = null;
 
   _setIntialScreen(User? user) {
-    user == null ? Get.offAll(() => const AdminDashboard()) : getuser();
-  }
-
-  getuser() async {
-    if (currentUser == null) {
-      final myuser = await getCurrentUser(firebaseUser.value?.uid.toString());
-      currentUser = myuser;
-      if (currentUser != null) {
-
-        Get.offAll(() =>  MyHomePage());
-      }
-    } else {
-      Get.offAll(() =>  MyHomePage());
-    }
-      
+    user == null
+        ? Get.offAll(() => const LoginScreen())
+        : Get.offAll(() => MyHomePage());
   }
 
   @override
@@ -42,32 +28,32 @@ class AuthenticationRepository extends GetxController {
     super.onReady();
     firebaseUser = await Rx<User?>(_auth.currentUser);
     firebaseUser.bindStream(_auth.userChanges());
-    print("the user id od user is ${firebaseUser.value?.uid.toString()}");
+    // print("the user id od user is ${firebaseUser.value?.uid.toString()}");
     // currentUser = await getCurrentUser(firebaseUser.value?.email);
     ever(firebaseUser, _setIntialScreen); // it is always ready to do action
   }
 
-  Future<UserModel?> getCurrentUser(String? email) async {
-    if (email == null) return null;
+  // Future<ProfileModel?> getCurrentUser(String? email) async {
+  //   if (email == null) return null;
 
-    final influencerSnapshot = await _db
-        .collection("Influencers")
-        .where("UserId", isEqualTo: email)
-        .get();
+  //   final influencerSnapshot = await _db
+  //       .collection("Influencers")
+  //       .where("UserId", isEqualTo: email)
+  //       .get();
 
-    if (influencerSnapshot.docs.isNotEmpty) {
-      return UserModel.fromSnapshot(influencerSnapshot.docs.first);
-    }
-    if (influencerSnapshot.docs.isEmpty) {
-      final brandSnapshot = await _db
-          .collection("Influencers")
-          .where("UserId", isEqualTo: email)
-          .get();
-      if (brandSnapshot.docs.isNotEmpty) {
-        return UserModel.fromSnapshot(brandSnapshot.docs.first);
-      }
-    }
-  }
+  //   if (influencerSnapshot.docs.isNotEmpty) {
+  //     return ProfileModel.fromSnapshot(influencerSnapshot.docs.first);
+  //   }
+  //   if (influencerSnapshot.docs.isEmpty) {
+  //     final brandSnapshot = await _db
+  //         .collection("Influencers")
+  //         .where("UserId", isEqualTo: email)
+  //         .get();
+  //     if (brandSnapshot.docs.isNotEmpty) {
+  //       return ProfileModel.fromSnapshot(brandSnapshot.docs.first);
+  //     }
+  //   }
+  // }
 
   Future<void> createUserWithEmailAndPassword(
       String email, String password) async {
@@ -91,9 +77,9 @@ class AuthenticationRepository extends GetxController {
   Future<void> signinWithEmailAndPassword(String email, String password) async {
     try {
       await _auth.signInWithEmailAndPassword(email: email, password: password);
-      // firebaseUser.value != null
-      //     ? Get.offAll(() => const DashboardScreen())
-      //     : Get.offAll(() => const SignupScreen());
+      firebaseUser.value != null
+          ? Get.offAll(() => MyHomePage())
+          : Get.offAll(() => const SignupScreen());
     } on FirebaseAuthException catch (e) {
       final ex = SignupWithEmailAndPasswordFailure.code(e.code);
       Get.snackbar("Error", ex.message);
@@ -115,3 +101,17 @@ class AuthenticationRepository extends GetxController {
     }
   }
 }
+
+
+// getuser() async {
+  //   // if (currentUser == null) {
+  //   final myuser = await getCurrentUser(firebaseUser.value?.uid.toString());
+  //   currentUser = myuser;
+  //   // if (currentUser != null) {
+
+  //   Get.offAll(() => SetProfileScreen());
+  //   //   }
+  //   // } else {
+  //   //   Get.offAll(() =>  MyHomePage());
+  //   // }
+  // }

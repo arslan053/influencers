@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:influencer/src/Utils/ProfileCard.dart';
+import 'package:influencer/src/Utils/profile_card.dart';
 import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
+import '../../chat/views/ChatScteen.dart';
 
 class ViewProfile extends StatelessWidget {
   const ViewProfile({Key? key}) : super(key: key);
@@ -21,28 +22,33 @@ class ViewProfile extends StatelessWidget {
               Container(
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                child: _authRepo.currentUser?.imageUrl != null &&
-                        _authRepo.currentUser!.imageUrl!.isNotEmpty
-                    ? CircleAvatar(
-                        radius: 45,
-                        backgroundImage: NetworkImage(
-                          _authRepo.currentUser!.imageUrl!,
-                        ),
-                      )
-                    : CircleAvatar(
-                        radius: 45,
-                        child: Text(
-                          _authRepo.currentUser!.name.substring(0, 1),
-                        ),
-                      ),
+                child: CircleAvatar(
+                    radius: 45,
+                    child: CircleAvatar(
+                      child: Icon(Icons.person),
+                    )),
+                // child: _authRepo.currentUser?.imageUrl != null &&
+                //         _authRepo.currentUser!.imageUrl!.isNotEmpty
+                //     ? CircleAvatar(
+                //         radius: 45,
+                //         backgroundImage: NetworkImage(
+                //           _authRepo.currentUser!.imageUrl!,
+                //         ),
+                //       )
+                //     : CircleAvatar(
+                //         radius: 45,
+                //         child: Text(
+                //           _authRepo.currentUser!.name.substring(0, 1),
+                //         ),
+                //       ),
               ),
               const SizedBox(
                 height: 20,
               ),
               Column(
-                children: [
+                children: const [
                   Text(
-                    _authRepo.currentUser!.name,
+                    "MyName",
                     style: TextStyle(
                       fontSize: 24,
                       fontFamily: 'Ubuntu',
@@ -62,7 +68,7 @@ class ViewProfile extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Align(
@@ -97,13 +103,13 @@ class ViewProfile extends StatelessWidget {
               const SizedBox(
                 height: 6,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 335,
                 height: 46,
                 child: Text(
-                  _authRepo.currentUser!.description,
+                  "kamal@gmail.con",
                   // 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using le English.',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xFF7F8080),
                     fontSize: 10,
                     fontFamily: 'Ubuntu',
@@ -132,7 +138,7 @@ class ViewProfile extends StatelessWidget {
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
+                      children: const [
                         Text(
                           '4.8',
                           style: TextStyle(
@@ -153,7 +159,7 @@ class ViewProfile extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Container(
@@ -167,7 +173,7 @@ class ViewProfile extends StatelessWidget {
                             height: 30,
                             width: 30,
                             child: Image.asset('assets/images/celebrity.png')),
-                        title: Text(
+                        title: const Text(
                           'Emily Watson',
                           style: TextStyle(
                             fontSize: 10,
@@ -176,7 +182,7 @@ class ViewProfile extends StatelessWidget {
                             height: 0,
                           ),
                         ),
-                        subtitle: Text(
+                        subtitle: const Text(
                           'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters',
                           style: TextStyle(
                             color: Color(0xFF7F8080),
@@ -189,7 +195,7 @@ class ViewProfile extends StatelessWidget {
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                          children: const [
                             Text(
                               '4.8',
                               style: TextStyle(
@@ -213,6 +219,12 @@ class ViewProfile extends StatelessWidget {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Get.to(() => ChatScreen());
+        },
+        child: Icon(Icons.message_rounded),
       ),
     );
   }
