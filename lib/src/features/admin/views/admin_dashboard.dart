@@ -3,7 +3,7 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:influencer/src/features/admin/views/category_Show_dialog.dart';
 
-import '../../../Utils/CategoryCard.dart';
+import '../../../Utils/category_card.dart';
 import '../../../constants/colors.dart';
 import '../../../constants/sizes.dart';
 

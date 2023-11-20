@@ -13,15 +13,20 @@ class ChatScreenState extends State<ChatScreen> {
   late final String _chatId;
   late final CollectionReference _messagesCollection;
 
-  ChatScreenState() : _user = FirebaseAuth.instance.currentUser!, _chatId = 'user_${FirebaseAuth.instance.currentUser!.uid}_${'user2'}' {
-    _messagesCollection = FirebaseFirestore.instance.collection('chats').doc(_chatId).collection('messages');
+  ChatScreenState()
+      : _user = FirebaseAuth.instance.currentUser!,
+        _chatId = 'user_${FirebaseAuth.instance.currentUser!.uid}_${'user2'}' {
+    _messagesCollection = FirebaseFirestore.instance
+        .collection('chats')
+        .doc(_chatId)
+        .collection('messages');
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ChatScreen'),
+        title: const Text('ChatScreen'),
       ),
       body: Column(
         children: <Widget>[
@@ -30,7 +35,7 @@ class ChatScreenState extends State<ChatScreen> {
               stream: _messagesCollection.orderBy('timestamp').snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -49,7 +54,7 @@ class ChatScreenState extends State<ChatScreen> {
 
                 return ListView(
                   reverse: true,
-                  children:messageWidgets,
+                  children: messageWidgets,
                 );
               },
             ),

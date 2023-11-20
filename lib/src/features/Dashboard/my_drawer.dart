@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:influencer/src/features/campaigns/views/create_campaign.dart';
-import 'package:influencer/src/features/profile/ProfileScreen.dart';
+import 'package:influencer/src/features/profile/views/view_profile.dart';
 
 import '../../repository/authentication_repository/authentication_repository.dart';
+import '../profile/model/profile_model.dart';
 
-Drawer MyDrawer() {
+Drawer MyDrawer(ProfileModel userData) {
   final _authRepo = Get.put(AuthenticationRepository());
 
   return Drawer(
@@ -14,20 +15,27 @@ Drawer MyDrawer() {
       padding: EdgeInsets.zero,
       children: [
         UserAccountsDrawerHeader(
-            currentAccountPicture: _authRepo.currentUser?.imageUrl != null &&
-                    _authRepo.currentUser!.imageUrl!.isNotEmpty
-                ? CircleAvatar(
-                    backgroundImage:
-                        NetworkImage(_authRepo.currentUser!.imageUrl!),
-                  )
-                : CircleAvatar(
-                    child: Text(
-                      _authRepo.currentUser!.name.substring(0, 1),
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                  ),
-            accountName: Text(_authRepo.currentUser!.name),
-            accountEmail: Text(_authRepo.currentUser!.name)),
+            // currentAccountPicture: CircleAvatar(
+            //   radius: 65,
+            //   child: CircleAvatar(
+            //       radius: 65,
+            //       child: CircleAvatar(
+            //         child: Icon(Icons.person),
+            //       )),
+            // ),
+            currentAccountPicture:
+                userData.imageUrl != null && userData!.imageUrl!.isNotEmpty
+                    ? CircleAvatar(
+                        backgroundImage: NetworkImage(userData!.imageUrl!),
+                      )
+                    : CircleAvatar(
+                        child: Text(
+                          _authRepo.currentUser!.name.substring(0, 1),
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                      ),
+            accountName: Text(userData.name ?? ''),
+            accountEmail: Text(userData.email ?? '')),
         ListTile(
           title: const Text("Profile"),
           trailing: Icon(Icons.person),

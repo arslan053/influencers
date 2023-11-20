@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:influencer/src/constants/colors.dart';
 import 'package:influencer/src/constants/sizes.dart';
 import 'package:influencer/src/features/authentication/controllers/signin_controller.dart';
 
@@ -39,11 +38,9 @@ class LoginForm extends StatelessWidget {
                 hintText: "Password",
                 prefixIcon: Icon(
                   Icons.fingerprint,
-                  
                 ),
                 suffixIcon: Icon(
                   Icons.remove_red_eye_sharp,
-                  
                 ),
               ),
             ),
@@ -52,7 +49,9 @@ class LoginForm extends StatelessWidget {
             ),
             const Align(
                 alignment: Alignment.centerRight,
-                child: Text("Forget Password",)),
+                child: Text(
+                  "Forget Password",
+                )),
             const SizedBox(
               height: smallSize - 10,
             ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:influencer/src/features/Dashboard/DashboardScreen.dart';
-import 'package:influencer/src/features/MessagesScreeen/MessageScreen.dart';
-import 'package:influencer/src/features/Wallet/WalletScreen.dart';
+import 'package:influencer/src/features/Dashboard/dashboard_screen.dart';
+import 'package:influencer/src/features/Wallet/views/WalletScreen.dart';
 
-import '../campaigns/views/CampaignScreen.dart';
+import '../../chat/views/message_screen.dart';
+import '../../campaigns/views/campaign_screen.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -16,9 +16,9 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> _pages = [
     DashboardScreen(),
     // Define your different views here
-    MessageScreen(),
-    CampaignScreen(),
-    WallettScreen(),
+    const MessageScreen(),
+    const CampaignScreen(),
+    const WallettScreen(),
   ];
 
   void _onTabTapped(int index) {
@@ -33,6 +33,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         fixedColor: Colors.green.shade200,
+        unselectedItemColor: Colors.black26,
         currentIndex: _currentIndex,
         onTap: _onTabTapped,
         items: const [

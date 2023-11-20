@@ -9,8 +9,8 @@ import 'package:get/get.dart';
 import 'package:influencer/src/features/admin/views/admin_dashboard.dart';
 import 'package:influencer/src/repository/influencer_repository/influencer_repository.dart';
 
-import '../../../repository/authentication_repository/authentication_repository.dart';
-import 'category_model.dart';
+import '../../../../repository/authentication_repository/authentication_repository.dart';
+import '../model/category_model.dart';
 
 class CategoriesController extends GetxController {
   final _authRepo = Get.put(AuthenticationRepository());

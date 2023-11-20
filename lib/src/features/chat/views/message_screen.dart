@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:influencer/src/Utils/CustomSearchbar.dart';
-import 'package:influencer/src/Utils/InboxCard.dart';
+import 'package:influencer/src/Utils/custom_search_bar.dart';
+import 'package:influencer/src/Utils/inbox_card.dart';
 
 class MessageScreen extends StatefulWidget {
   const MessageScreen({Key? key}) : super(key: key);

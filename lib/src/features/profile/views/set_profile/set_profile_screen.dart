@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:influencer/src/constants/sizes.dart';
-import 'package:influencer/src/features/authentication/views/set_profile/set_profile_form.dart';
+import 'package:influencer/src/features/profile/views/set_profile/set_profile_form.dart';
 
 import '../../../../Utils/utils.dart';
 import '../../../../constants/colors.dart';
-import '../../controllers/set_profile_controller.dart';
+import '../../controller/set_profile_controller.dart';
 
 class SetProfileScreen extends StatelessWidget {
   SetProfileScreen({Key? key}) : super(key: key);

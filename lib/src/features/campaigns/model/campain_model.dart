@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:influencer/src/features/authentication/model/user_model.dart';
+import 'package:influencer/src/features/profile/model/profile_model.dart';
 
 class CampaignModel {
   final String? id;
