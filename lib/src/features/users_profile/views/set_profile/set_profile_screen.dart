@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:influencer/src/constants/sizes.dart';
-import 'package:influencer/src/features/profile/views/set_profile/set_profile_form.dart';
+import 'package:influencer/src/features/users_profile/views/set_profile/set_profile_form.dart';
 
 import '../../../../Utils/utils.dart';
 import '../../../../constants/colors.dart';

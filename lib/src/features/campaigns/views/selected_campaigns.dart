@@ -1,21 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:influencer/src/Utils/campaign_card.dart';
-import 'package:influencer/src/Utils/custom_search_bar.dart';
+import 'package:flutter/src/foundation/key.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
-import 'package:influencer/src/features/campaigns/model/campain_model.dart';
-import 'package:influencer/src/features/campaigns/views/campaign_detail.dart';
-import 'package:influencer/src/repository/campaign_repository.dart/campaign_repository.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class CampaignScreen extends StatefulWidget {
-  const CampaignScreen({Key? key}) : super(key: key);
+import '../../../Utils/campaign_card.dart';
+import '../../../repository/campaign_repository.dart/campaign_repository.dart';
+import '../../users_profile/model/user_model.dart';
+import '../model/campain_model.dart';
+import 'campaign_detail.dart';
+
+class SelectedCampaigns extends StatefulWidget {
+  final String? category;
+
+  const SelectedCampaigns({Key? key, this.category}) : super(key: key);
 
   @override
-  State<CampaignScreen> createState() => _CampaignScreenState();
+  State<SelectedCampaigns> createState() => _SelectedCampaignsState();
 }
 
-class _CampaignScreenState extends State<CampaignScreen> {
-  // final campaignsData = CampaignRepository.instance.getAllCampaignsAsStream();
+class _SelectedCampaignsState extends State<SelectedCampaigns> {
+  bool get isCategoryPresent => widget.category != null;
+
+  Stream<List<CampaignModel>> _selectedCampaignsStream() {
+    if (isCategoryPresent) {
+      return CampaignRepository.instance
+          .getCampaignsByCategory(widget.category!);
+    } else {
+      return CampaignRepository.instance.getAllCampaignsAsStream();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,7 +74,7 @@ class _CampaignScreenState extends State<CampaignScreen> {
               ),
               Expanded(
                 child: StreamBuilder<List<CampaignModel>>(
-                  stream: CampaignRepository.instance.getAllCampaignsAsStream(),
+                  stream: _selectedCampaignsStream(),
                   builder: (BuildContext context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(child: CircularProgressIndicator());
@@ -101,25 +117,3 @@ class _CampaignScreenState extends State<CampaignScreen> {
     );
   }
 }
-
-//  StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-//                 stream: db_categories,
-//                 builder: (BuildContext context, snapshot) {
-//                   if (snapshot.connectionState == ConnectionState.waiting) {
-//                     return const Center(
-//                       child: CircularProgressIndicator(),
-//                     );
-//                   } else if (snapshot.hasError) {
-//                     return Text(snapshot.error.toString());
-//                   } else {
-//                     final data = snapshot.data?.docs;
-//                     return Container(
-//                       height: 120,
-//                       child: ListView.builder(
-//                         scrollDirection: Axis.horizontal,
-//                         itemCount: data!.length,
-//                         itemBuilder: (BuildContext context, index) {
-//                           return CategoryCard(
-//                               path: data[index]['ImageUrl'],
-//                               text: data[index]["Category"]);
-//                         },

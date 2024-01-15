@@ -6,8 +6,10 @@ import 'package:influencer/firebase_options.dart';
 import 'package:influencer/src/constants/colors.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
+import 'src/features/chat/controllers/chats_controller.dart';
 import 'src/repository/campaign_repository.dart/campaign_repository.dart';
-import 'src/repository/influencer_repository/influencer_repository.dart';
+import 'src/repository/users_repository/brand_repository.dart';
+import 'src/repository/users_repository/influencer_repository.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,8 +20,10 @@ Future<void> main() async {
 
   await FirebaseAppCheck.instance.activate();
   Get.put(InfluencerRepository());
+  Get.put(BrandRepository());
   Get.put(AuthenticationRepository());
   Get.put(CampaignRepository());
+  Get.put(ChatsController());
 
   runApp(const MyApp());
 }

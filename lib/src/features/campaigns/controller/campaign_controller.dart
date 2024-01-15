@@ -13,6 +13,11 @@ class CampaignController extends GetxController {
   final totalPrice = TextEditingController();
   final delieveryTime = TextEditingController();
   final expireInDays = TextEditingController();
+  var selectedCategory = ''.obs;
+
+  void setSelectedCategory(String newValue) {
+    selectedCategory.value = newValue;
+  }
 
   createCampaign(CampaignModel campaign) {
     campaign.brandId = _authRepo.firebaseUser.value?.uid;
