@@ -7,6 +7,7 @@ import 'package:influencer/src/repository/order_repository/order_repository.dart
 import 'package:influencer/src/repository/users_repository/brand_repository.dart';
 
 import '../../../repository/users_repository/influencer_repository.dart';
+import '../../deliever_order/views/show_order_deliever_dialogue.dart';
 import '../../users_profile/model/user_model.dart';
 import '../model/order_model.dart';
 
@@ -22,6 +23,7 @@ class _MyOrdersState extends State<MyOrders> {
   final orderRepository = Get.put(OrderRepository());
   final brandRepository = Get.put(BrandRepository());
   final influencerRepository = Get.put(InfluencerRepository());
+  int _rating = 0;
 
   @override
   void initState() {
@@ -120,7 +122,11 @@ class _MyOrdersState extends State<MyOrders> {
                                           influencer.imageUrl!.isNotEmpty
                                       ? influencer.imageUrl
                                       : null,
-                                  onButtonPressed2: () {},
+                                  onButtonPressed2: () {
+                                    showOrderDelieverDialogue(
+                                      context,
+                                    );
+                                  },
                                   deliveryTime: order.deliveryDate.toString(),
                                   orderAmount: order.bidAmount.toString(),
                                   onButtonPressed1: () async {},
