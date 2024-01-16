@@ -2,9 +2,10 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:influencer/src/features/profile/model/profile_model.dart';
+import 'package:influencer/src/features/users_profile/model/user_model.dart';
 import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
-import 'package:influencer/src/repository/influencer_repository/influencer_repository.dart';
+import 'package:influencer/src/repository/users_repository/brand_repository.dart';
+import 'package:influencer/src/repository/users_repository/influencer_repository.dart';
 
 class SetProfileController extends GetxController {
   final _authRepo = Get.put(AuthenticationRepository());
@@ -30,7 +31,7 @@ class SetProfileController extends GetxController {
     } else {
       user.role = "Brand";
 
-      InfluencerRepository.instance.createBrand(user, image);
+      BrandRepository.instance.createBrand(user, image);
     }
   }
 }

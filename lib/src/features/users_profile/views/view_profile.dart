@@ -1,12 +1,15 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:influencer/src/Utils/profile_card.dart';
+import 'package:influencer/src/features/users_profile/model/user_model.dart';
 import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
 import '../../chat/views/ChatScteen.dart';
 
 class ViewProfile extends StatelessWidget {
-  const ViewProfile({Key? key}) : super(key: key);
+  final ProfileModel profile;
+  const ViewProfile({Key? key, required this.profile}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,34 +25,33 @@ class ViewProfile extends StatelessWidget {
               Container(
                 decoration:
                     BoxDecoration(borderRadius: BorderRadius.circular(50)),
-                child: CircleAvatar(
-                    radius: 45,
-                    child: CircleAvatar(
-                      child: Icon(Icons.person),
-                    )),
-                // child: _authRepo.currentUser?.imageUrl != null &&
-                //         _authRepo.currentUser!.imageUrl!.isNotEmpty
-                //     ? CircleAvatar(
-                //         radius: 45,
-                //         backgroundImage: NetworkImage(
-                //           _authRepo.currentUser!.imageUrl!,
-                //         ),
-                //       )
-                //     : CircleAvatar(
-                //         radius: 45,
-                //         child: Text(
-                //           _authRepo.currentUser!.name.substring(0, 1),
-                //         ),
-                //       ),
+                // child: CircleAvatar(
+                //     radius: 45,
+                //     child: CircleAvatar(
+                //       child: Icon(Icons.person),
+                //     )),
+                child: profile.imageUrl != null && profile.imageUrl!.isNotEmpty
+                    ? CircleAvatar(
+                        radius: 45,
+                        backgroundImage: NetworkImage(
+                          profile.imageUrl!,
+                        ),
+                      )
+                    : CircleAvatar(
+                        radius: 45,
+                        child: Text(
+                          profile.name.substring(0, 1),
+                        ),
+                      ),
               ),
               const SizedBox(
                 height: 20,
               ),
               Column(
-                children: const [
+                children: [
                   Text(
-                    "MyName",
-                    style: TextStyle(
+                    profile.name ?? "Notfound",
+                    style: const TextStyle(
                       fontSize: 24,
                       fontFamily: 'Ubuntu',
                       fontWeight: FontWeight.w700,
@@ -222,7 +224,7 @@ class ViewProfile extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(() => ChatScreen());
+          Get.to(() => ChatScreen(user: profile));
         },
         child: Icon(Icons.message_rounded),
       ),

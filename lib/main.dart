@@ -1,15 +1,21 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:influencer/firebase_options.dart';
 import 'package:influencer/src/constants/colors.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
+import 'src/features/chat/controllers/chats_controller.dart';
 import 'src/repository/campaign_repository.dart/campaign_repository.dart';
-import 'src/repository/influencer_repository/influencer_repository.dart';
+import 'src/repository/users_repository/brand_repository.dart';
+import 'src/repository/users_repository/influencer_repository.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Stripe.publishableKey =
+      "pk_test_51OYyFwCco8aRIMxYG6XkLSTzibUuHt1nmcJYX3ddeN9IGGt6K6wZjlzA21X38kQgDPfm38IfRK9phsMfVaBF3m7j00qiDdnTji";
   WidgetsFlutterBinding.ensureInitialized();
   // await Firebase.initializeApp();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform)
@@ -18,8 +24,10 @@ Future<void> main() async {
 
   await FirebaseAppCheck.instance.activate();
   Get.put(InfluencerRepository());
+  Get.put(BrandRepository());
   Get.put(AuthenticationRepository());
   Get.put(CampaignRepository());
+  Get.put(ChatsController());
 
   runApp(const MyApp());
 }

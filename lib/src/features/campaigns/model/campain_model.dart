@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:influencer/src/features/profile/model/profile_model.dart';
+import 'package:influencer/src/features/users_profile/model/user_model.dart';
 
 class CampaignModel {
   final String? id;
@@ -7,7 +7,9 @@ class CampaignModel {
   final String description;
   final String totalPrice;
   final String delieveryTime;
-  final String expireInDays;
+  final String category;
+  final DateTime createdAt;
+  final String status;
 
   CampaignModel(
       {this.id,
@@ -15,26 +17,33 @@ class CampaignModel {
       required this.description,
       required this.totalPrice,
       required this.delieveryTime,
-      required this.expireInDays});
+      required this.category,
+      required this.createdAt,
+      required this.status});
 
   toMap() {
     return {
       "Description": description,
       "TotalPrice": totalPrice,
       "delieveryTime": delieveryTime,
-      "ExpiryInDays": expireInDays,
-      "BrandId": brandId
+      "BrandId": brandId,
+      "Category": category,
+      "CreatedAt": createdAt.toUtc(),
+      "Status": status
     };
   }
 
   factory CampaignModel.fromSnapShot(
       DocumentSnapshot<Map<String, dynamic>> document) {
+    final data = document.data()!;
     return CampaignModel(
         id: document.id,
-        brandId: "BrandId",
-        description: "Description",
-        totalPrice: "TotalPrice",
-        delieveryTime: "delieveryTime",
-        expireInDays: "ExpiryInDays");
+        brandId: data["BrandId"],
+        description: data["Description"],
+        totalPrice: data["TotalPrice"],
+        delieveryTime: data["delieveryTime"],
+        category: data["Category"] ?? '',
+        createdAt: (data["CreatedAt"] as Timestamp).toDate(),
+        status: data["Status"]);
   }
 }

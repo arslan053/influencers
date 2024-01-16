@@ -2,12 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:influencer/src/features/BotttonNavigation/views/bottom_navigation.dart';
+import 'package:influencer/src/features/admin/views/admin_dashboard.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/features/authentication/views/signup/signup_screen.dart';
 import 'package:influencer/src/repository/authentication_repository/exceptions/signup_email_password_failure.dart';
 
-import '../../features/profile/model/profile_model.dart';
-import '../../features/profile/views/set_profile/set_profile_screen.dart';
+import '../../features/users_profile/model/user_model.dart';
+import '../../features/users_profile/views/set_profile/set_profile_screen.dart';
 
 class AuthenticationRepository extends GetxController {
   static AuthenticationRepository get instance => Get.find();
@@ -18,6 +19,8 @@ class AuthenticationRepository extends GetxController {
   ProfileModel? currentUser = null;
 
   _setIntialScreen(User? user) {
+    //   Get.offAll(() => AdminDashboard());
+    // }
     user == null
         ? Get.offAll(() => const LoginScreen())
         : Get.offAll(() => MyHomePage());
@@ -97,7 +100,7 @@ class AuthenticationRepository extends GetxController {
       Get.to(LoginScreen());
       Get.snackbar("Signou", "User Logout Successfully");
     } catch (e) {
-      Get.snackbar("Signou", "Erro Signing out $e");
+      Get.snackbar("Signou", "Error Signing out $e");
     }
   }
 }

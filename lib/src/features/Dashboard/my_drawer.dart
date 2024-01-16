@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:influencer/src/features/campaigns/views/create_campaign.dart';
-import 'package:influencer/src/features/profile/views/view_profile.dart';
+import 'package:influencer/src/features/users_profile/views/view_profile.dart';
 
 import '../../repository/authentication_repository/authentication_repository.dart';
-import '../profile/model/profile_model.dart';
+import '../campaigns/views/selected_campaigns.dart';
+import '../order/views/my_orders.dart';
+import '../users_profile/model/user_model.dart';
 
 Drawer MyDrawer(ProfileModel userData) {
   final _authRepo = Get.put(AuthenticationRepository());
@@ -24,9 +26,9 @@ Drawer MyDrawer(ProfileModel userData) {
             //       )),
             // ),
             currentAccountPicture:
-                userData.imageUrl != null && userData!.imageUrl!.isNotEmpty
+                userData.imageUrl != null && userData.imageUrl!.isNotEmpty
                     ? CircleAvatar(
-                        backgroundImage: NetworkImage(userData!.imageUrl!),
+                        backgroundImage: NetworkImage(userData.imageUrl!),
                       )
                     : CircleAvatar(
                         child: Text(
@@ -40,11 +42,27 @@ Drawer MyDrawer(ProfileModel userData) {
           title: const Text("Profile"),
           trailing: Icon(Icons.person),
           onTap: () {
-            Get.to(ViewProfile());
+            Get.to(ViewProfile(profile: userData));
+          },
+        ),
+        ListTile(
+          title: const Text("My Order"),
+          trailing: Icon(Icons.speaker_sharp),
+          onTap: () {
+            Get.to(MyOrders(
+              user: userData,
+            ));
           },
         ),
         ListTile(
           title: const Text("My Campaigns"),
+          trailing: Icon(Icons.speaker_sharp),
+          onTap: () {
+            Get.to(SelectedCampaigns());
+          },
+        ),
+        ListTile(
+          title: const Text("Campaigns"),
           trailing: Icon(Icons.speaker_sharp),
           onTap: () {},
         ),
