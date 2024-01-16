@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 import '../../features/bids/model/bid_model.dart';
-import '../../features/model/model/order_model.dart';
+import '../../features/order/model/order_model.dart';
 
 class OrderRepository extends GetxController {
   static OrderRepository get instance => Get.find();
@@ -22,25 +22,40 @@ class OrderRepository extends GetxController {
               DateTime.now().add(Duration(days: acceptedBid.deliveryDays)),
           createdAt: DateTime.now(),
           remarks: acceptedBid.remarks,
+          paymentStatus: 'unpaid',
           deliverables: acceptedBid.deliverables);
 
       // Convert the Order object to a map
       Map<String, dynamic> orderData = newOrder.toMap();
 
-      // Save the order to your database
-      // Assuming you are using Firestore, it might look something like this:
-      var documentReference = FirebaseFirestore.instance
-          .collection('Orders'); // Document ID generated automatically
+      var documentReference = FirebaseFirestore.instance.collection('Orders');
       await documentReference.add(orderData);
       if (acceptedBid.id != null) {
         var bidDocumentReference =
             FirebaseFirestore.instance.collection('Bids').doc(acceptedBid.id);
         await bidDocumentReference.update({'BidStatus': 'accepted'});
-        // You can add more code here if you need to perform additional actions after updating the bid
       }
       Get.snackbar("Successfull", "Order created successfully.");
     } catch (e) {
       Get.snackbar("Error", 'Error creating order: $e');
     }
+  }
+
+  Stream<List<OrderModel>> getOrdersByBrandId(String brandId) {
+    return FirebaseFirestore.instance
+        .collection('Orders')
+        .where('BrandId', isEqualTo: brandId)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => OrderModel.fromSnapShot(doc)).toList());
+  }
+
+  Stream<List<OrderModel>> getOrdersByInfluencerId(String influencerId) {
+    return FirebaseFirestore.instance
+        .collection('Orders')
+        .where('InfluencerId', isEqualTo: influencerId)
+        .snapshots()
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => OrderModel.fromSnapShot(doc)).toList());
   }
 }

@@ -54,8 +54,10 @@ class InfluencerRepository extends GetxController {
 
   // to fetch the userdetail
   Future<ProfileModel> getInfluencerDetails(String uid) async {
-    final snapshot =
-        await _db.collection("Brands").where("UserId", isEqualTo: uid).get();
+    final snapshot = await _db
+        .collection("Influencers")
+        .where("UserId", isEqualTo: uid)
+        .get();
     print("Number of documents found: ${snapshot.docs.length}");
     if (snapshot.docs.isNotEmpty) {
       // Assuming you want to get the first document if multiple documents are present

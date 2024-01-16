@@ -45,7 +45,7 @@ class OrderCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Row(
                 children: [
-                  Text("$deliveryTime day"),
+                  Text(calculateRemainingTime(deliveryTime)),
                   Padding(
                     padding: const EdgeInsets.only(left: 16),
                     child: Text("$orderAmount rupees"),
@@ -72,5 +72,22 @@ class OrderCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String calculateRemainingTime(String deliveryTime) {
+    DateTime now = DateTime.now();
+
+    // Extract the date part and convert it to DateTime
+    DateTime deliveryDate = DateTime.parse(deliveryTime);
+
+    // Calculate the difference
+    Duration difference = deliveryDate.difference(now);
+
+    // Extract remaining days and hours
+    int remainingDays = difference.inDays;
+    int remainingHours = difference.inHours.remainder(24);
+
+    // Format the result
+    return '$remainingDays days and $remainingHours hours remaining';
   }
 }

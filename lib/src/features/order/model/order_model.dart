@@ -10,6 +10,7 @@ class OrderModel {
   final DateTime deliveryDate;
   final DateTime createdAt;
   final String remarks;
+  final String paymentStatus;
   final String? deliverables; // Optional
 
   OrderModel({
@@ -23,6 +24,7 @@ class OrderModel {
     required this.createdAt,
     this.remarks = '',
     this.deliverables,
+    this.paymentStatus = 'unpaid',
   });
 
   Map<String, dynamic> toMap() {
@@ -35,7 +37,8 @@ class OrderModel {
       'DeliveryDate': deliveryDate.toUtc(),
       'CreatedAt': createdAt.toUtc(),
       'Remarks': remarks,
-      'Deliverables': deliverables
+      'Deliverables': deliverables,
+      'PaymentStatus': paymentStatus
     };
   }
 
@@ -53,6 +56,7 @@ class OrderModel {
       createdAt: (data['CreatedAt'] as Timestamp).toDate(),
       remarks: data['Remarks'] ?? '',
       deliverables: data['Deliverables'],
+      paymentStatus: data['PaymentStatus'],
     );
   }
 }

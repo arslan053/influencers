@@ -40,9 +40,9 @@ class BrandRepository extends GetxController {
   }
 
   // to fetch the userdetail
-  Future<ProfileModel> getBrandDetails(String email) async {
+  Future<ProfileModel> getBrandDetails(String uid) async {
     final snapshot =
-        await _db.collection("Brands").where("Email", isEqualTo: email).get();
+        await _db.collection("Brands").where("UserId", isEqualTo: uid).get();
     if (snapshot.docs.isNotEmpty) {
       // Assuming you want to get the first document if multiple documents are present
       final userData = snapshot.docs
