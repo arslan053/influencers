@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:influencer/src/constants/sizes.dart';
 import 'package:influencer/src/features/authentication/controllers/signin_controller.dart';
 
+import '../forget_password/forget_password_screen.dart';
+
 class LoginForm extends StatelessWidget {
   const LoginForm({
     Key? key,
@@ -65,7 +67,27 @@ class LoginForm extends StatelessWidget {
                             controller.password.text);
                       }
                     },
-                    child: const Text("Login")))
+                    child: const Text("Login"))),
+            Align(
+                alignment: Alignment.centerRight,
+                child: InkWell(
+                  onTap: () {
+                    Get.to(() => ForgotPassword());
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "Forgot Password?",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.blue),
+                      ),
+                    ],
+                  ),
+                )),
           ],
         ));
   }
