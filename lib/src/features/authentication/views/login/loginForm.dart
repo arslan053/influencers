@@ -61,8 +61,7 @@ class LoginForm extends StatelessWidget {
                     onPressed: () {
                       if (_formkey.currentState!.validate()) {
                         SigninController.instance.signinUser(
-                            controller.email.text.trim(),
-                            controller.password.text);
+                            controller.email.text, controller.password.text);
                       }
                     },
                     child: const Text("Login")))

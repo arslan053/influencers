@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,13 +8,32 @@ import 'package:influencer/src/features/users_profile/model/user_model.dart';
 import 'package:influencer/src/repository/users_repository/influencer_repository.dart';
 import '../../../../constants/colors.dart';
 
-class ProfileSetupForm extends StatelessWidget {
+class ProfileSetupForm extends StatefulWidget {
   const ProfileSetupForm({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<ProfileSetupForm> createState() => _ProfileSetupFormState();
+}
+
+class _ProfileSetupFormState extends State<ProfileSetupForm> {
+  String? fcm_token;
+
+  fcm_tokene() async {
+    fcm_token = await FirebaseMessaging.instance.getToken();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    fcm_tokene();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print(fcm_token);
     final controller = Get.put(SetProfileController());
     final _formkey = GlobalKey<FormState>();
     return Expanded(
@@ -67,7 +87,7 @@ class ProfileSetupForm extends StatelessWidget {
           ),
           TextFormField(
             controller: controller.description,
-            maxLines: 6,
+            maxLines: 4,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: "About You*",
@@ -122,7 +142,8 @@ class ProfileSetupForm extends StatelessWidget {
                               website: controller.website.text,
                               bio: controller.bio.text,
                               description: controller.description.text,
-                              rating: 0);
+                              rating: 0,
+                              fcm_token: fcm_token.toString());
                           SetProfileController.instance.createUser(influencer,
                               controller.role.value, controller.image.value!);
                         },

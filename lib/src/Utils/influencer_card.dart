@@ -6,7 +6,14 @@ class InfluencerCard extends StatelessWidget {
   final String rating;
   final String name;
   final String order;
-  const InfluencerCard({Key? key, required this.path, required this.category, required this.rating, required this.name, required this.order}) : super(key: key);
+  const InfluencerCard(
+      {Key? key,
+      required this.path,
+      required this.category,
+      required this.rating,
+      required this.name,
+      required this.order})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +26,13 @@ class InfluencerCard extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 173,
-            child: Image.network(path,fit: BoxFit.cover,),
+            height: 150,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.network(
+                  path,
+                  fit: BoxFit.cover,
+                )),
           ),
           Padding(
             padding: const EdgeInsets.all(10.0),
@@ -31,20 +43,42 @@ class InfluencerCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(category,style: TextStyle(fontSize: 12,color: Colors.grey),),
-                    SizedBox(height: 4,),
+                    Text(
+                      category,
+                      style: TextStyle(fontSize: 12, color: Colors.grey),
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
                     Row(
                       children: [
-                        Text(rating,style: TextStyle(fontSize: 12,color: Colors.black),),
-                        Icon(Icons.star,color: Colors.yellow,size: 25,)
+                        Text(
+                          rating,
+                          style: TextStyle(fontSize: 12, color: Colors.black),
+                        ),
+                        Icon(
+                          Icons.star,
+                          color: Colors.yellow,
+                          size: 25,
+                        )
                       ],
                     )
                   ],
                 ),
-                SizedBox(height: 4,),
-                Text(name,style: TextStyle(fontSize: 12,color: Colors.black),),
-                SizedBox(height: 4,),
-                Text('$order order completed',style: TextStyle(fontSize: 12,color: Colors.grey),),
+                SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  name,
+                  style: TextStyle(fontSize: 12, color: Colors.black),
+                ),
+                SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  '$order order completed',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
               ],
             ),
           )
