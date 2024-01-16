@@ -17,15 +17,18 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(8.0),
       child: Column(children: [
         Container(
             height: height,
             width: width,
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
-            child: Image.network(
-              path,
-              fit: BoxFit.cover,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.network(
+                path,
+                fit: BoxFit.cover,
+              ),
             )),
         SizedBox(
           height: 3,

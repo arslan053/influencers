@@ -1,9 +1,11 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
 // import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:influencer/firebase_options.dart';
+import 'package:influencer/notification_service.dart';
 import 'package:influencer/src/constants/colors.dart';
 import 'package:influencer/src/features/authentication/views/login/login_screen.dart';
 import 'package:influencer/src/repository/authentication_repository/authentication_repository.dart';
@@ -23,12 +25,13 @@ Future<void> main() async {
   await FirebaseAppCheck.instance.activate();
 
   await FirebaseAppCheck.instance.activate();
+  Get.put(NotificationController());
   Get.put(InfluencerRepository());
   Get.put(BrandRepository());
   Get.put(AuthenticationRepository());
   Get.put(CampaignRepository());
   Get.put(ChatsController());
-
+  NotificationController().showNotification('Influencer is live');
   runApp(const MyApp());
 }
 

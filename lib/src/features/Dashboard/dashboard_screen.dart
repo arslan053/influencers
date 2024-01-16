@@ -39,9 +39,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
         FirebaseFirestore.instance.collection('Categories').get().asStream();
 
     return Scaffold(
-        floatingActionButton: FloatingActionButton(onPressed: () {
-          _authRepo.signOut();
-        }),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(50.0),
           child: AppBar(
@@ -161,7 +158,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     }
                   }),
               const SizedBox(
-                height: 30,
+                height: 11,
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -181,7 +178,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 stream: db,
@@ -219,10 +216,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                     () => ViewProfile(profile: profileModel));
                               },
                               child: InfluencerCard(
-                                path: document?['ImageUrl'],
-                                category: document?['Role'],
+                                path: document?['ImageUrl'] ?? '',
+                                category: document?['Role'] ?? "",
                                 rating: '4.5',
-                                name: document?['Name'],
+                                name: document?['Name'] ?? "",
                                 order: '63',
                               ),
                             ),

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class ProfileModel {
   final String? id;
@@ -13,7 +14,7 @@ class ProfileModel {
   final String bio;
   String? imageUrl;
   final double rating;
-
+  String fcm_token;
   ProfileModel(
       {this.id,
       this.userId,
@@ -26,7 +27,8 @@ class ProfileModel {
       required this.description,
       this.rating = 0,
       this.imageUrl,
-      this.role});
+      this.role,
+      required this.fcm_token});
 
   toMap() {
     return {
@@ -40,7 +42,8 @@ class ProfileModel {
       "Bio": bio,
       "Rating": rating,
       "ImageUrl": imageUrl,
-      "Role": role
+      "Role": role,
+      'fcm_token': fcm_token
     };
   }
 
@@ -51,16 +54,17 @@ class ProfileModel {
         .data()!; //.get provide typical data i.e email and data provides document
     return ProfileModel(
         id: document.id,
-        userId: data["UserId"],
-        name: data["Name"],
-        username: data["UserName"],
-        email: data["Email"],
-        phonenumber: data["PhoneNumber"],
-        website: data["Website"],
-        bio: data["Bio"],
-        description: data["Description"],
-        rating: data["Rating"],
-        imageUrl: data["ImageUrl"],
-        role: data["Role"]);
+        userId: data["UserId"] ?? "",
+        name: data["Name"] ?? "",
+        username: data["UserName"] ?? "",
+        email: data["Email"] ?? "",
+        phonenumber: data["PhoneNumber"] ?? "",
+        website: data["Website"] ?? "",
+        bio: data["Bio"] ?? "",
+        description: data["Description"] ?? "",
+        rating: data["Rating"] ?? "",
+        imageUrl: data["ImageUrl"] ?? "",
+        role: data["Role"] ?? "",
+        fcm_token: data["fcm_token"] ?? "");
   }
 }
