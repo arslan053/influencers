@@ -45,6 +45,11 @@ class OrderRepository extends GetxController {
     return FirebaseFirestore.instance
         .collection('Orders')
         .where('BrandId', isEqualTo: brandId)
+        .where('Status', whereIn: [
+          'pending',
+          'delivered',
+          'revision'
+        ]) // Only get orders with 'pending' or 'delivered' status
         .snapshots()
         .map((snapshot) =>
             snapshot.docs.map((doc) => OrderModel.fromSnapShot(doc)).toList());
@@ -54,6 +59,11 @@ class OrderRepository extends GetxController {
     return FirebaseFirestore.instance
         .collection('Orders')
         .where('InfluencerId', isEqualTo: influencerId)
+        .where('Status', whereIn: [
+          'pending',
+          'delivered',
+          'revision'
+        ]) // Only get orders with 'pending' or 'delivered' status
         .snapshots()
         .map((snapshot) =>
             snapshot.docs.map((doc) => OrderModel.fromSnapShot(doc)).toList());

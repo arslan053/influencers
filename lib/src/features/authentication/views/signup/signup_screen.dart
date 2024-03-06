@@ -19,44 +19,44 @@ class SignupScreen extends StatelessWidget {
           padding: const EdgeInsets.all(defaultSize),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const Icon(
+                Icons.access_alarm,
+                size: mediumContanerSize - 100,
+              ),
               const SizedBox(
-                height: largeSize + 10,
+                height: mediumlSize,
               ),
               Container(
-                  height: size.height * 0.8,
+                  height: largeContainerSize,
                   width: size.width * 0.9,
                   decoration: BoxDecoration(
                       color: whiteColor,
                       borderRadius: BorderRadius.circular(mediumlSize - 5)),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: smallSize),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: defaultSize,
-                        ),
-                        Text("SignUP",
-                            style: Theme.of(context).textTheme.headline3),
-                        const SizedBox(
-                          height: mediumlSize,
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: smallSize),
-                        ),
-                        SignupForm(),
-                        const SizedBox(
-                          height: mediumlSize,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.to(LoginScreen());
-                          },
-                          child: Text("Alredy have account? Signin"),
-                        )
-                      ],
-                    ),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: defaultSize,
+                      ),
+                      Text("Signup",
+                          style: Theme.of(context).textTheme.headline3),
+                      const SizedBox(
+                        height: mediumlSize,
+                      ),
+                      const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: smallSize),
+                        child: SignupForm(),
+                      ),
+                      const SizedBox(
+                        height: mediumlSize,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Get.to(LoginScreen());
+                        },
+                        child: Text("Already have Account? Sign in"),
+                      )
+                    ],
                   )),
             ],
           ),

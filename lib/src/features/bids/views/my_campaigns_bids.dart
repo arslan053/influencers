@@ -40,7 +40,7 @@ class MyCampaignBids extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Recent Campaigns',
+                    'Bids on Campaign',
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontFamily: GoogleFonts.ubuntu.toString(),

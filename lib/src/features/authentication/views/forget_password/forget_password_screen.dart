@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/snackbar/snackbar.dart';
+import 'package:influencer/src/features/authentication/views/signup/signup_screen.dart';
 
 import '../../../../Utils/round_button.dart';
 
@@ -103,7 +104,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     .then((value) {
                   Get.snackbar("",
                       "We have sent email to recover password,please check email",
-                      snackPosition: SnackPosition.TOP, colorText: Colors.red);
+                      snackPosition: SnackPosition.TOP,
+                      colorText: Colors.green);
+                  Get.to(SignupScreen());
                 }).onError((error, stackTrace) {
                   Get.snackbar(error.toString(), error.toString(),
                       snackPosition: SnackPosition.TOP, colorText: Colors.red);

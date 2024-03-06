@@ -47,32 +47,35 @@ Drawer MyDrawer(ProfileModel userData) {
         ),
         ListTile(
           title: const Text("My Order"),
-          trailing: Icon(Icons.speaker_sharp),
+          trailing: Icon(Icons.shop),
           onTap: () {
             Get.to(MyOrders(
               user: userData,
             ));
           },
         ),
-        ListTile(
-          title: const Text("My Campaigns"),
-          trailing: Icon(Icons.speaker_sharp),
-          onTap: () {
-            Get.to(SelectedCampaigns());
-          },
-        ),
-        ListTile(
-          title: const Text("Campaigns"),
-          trailing: Icon(Icons.speaker_sharp),
-          onTap: () {},
-        ),
-        ListTile(
-          title: const Text("Create Campaign"),
-          trailing: Icon(Icons.speaker_sharp),
-          onTap: () {
-            Get.to(CreateCampaign());
-          },
-        ),
+        if (userData != null && userData.role == "Brand")
+          ListTile(
+            title: const Text("My Campaigns"),
+            trailing: Icon(Icons.campaign),
+            onTap: () {
+              Get.to(SelectedCampaigns());
+            },
+          ),
+        if (userData != null && userData.role == "Influencer")
+          ListTile(
+            title: const Text("Campaigns"),
+            trailing: Icon(Icons.campaign),
+            onTap: () {},
+          ),
+        if (userData != null && userData.role == "Brand")
+          ListTile(
+            title: const Text("Create Campaign"),
+            trailing: Icon(Icons.campaign),
+            onTap: () {
+              Get.to(CreateCampaign());
+            },
+          ),
         ListTile(
           title: Text("Logout"),
           onTap: () => _authRepo.signOut(),

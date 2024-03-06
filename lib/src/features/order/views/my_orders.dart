@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:influencer/src/features/order/views/brand_order_Card.dart';
 import 'package:influencer/src/features/order/views/order_card.dart';
 import 'package:influencer/src/repository/order_repository/order_repository.dart';
 import 'package:influencer/src/repository/users_repository/brand_repository.dart';
@@ -115,22 +117,62 @@ class _MyOrdersState extends State<MyOrders> {
                               } else if (influencerSnapshot.hasData) {
                                 ProfileModel influencer =
                                     influencerSnapshot.data!;
-                                return OrderCard(
-                                  title: influencer.name,
-                                  subtitle: order.remarks,
-                                  imageUrl: influencer.imageUrl != null &&
-                                          influencer.imageUrl!.isNotEmpty
-                                      ? influencer.imageUrl
-                                      : null,
-                                  onButtonPressed2: () {
-                                    showOrderDelieverDialogue(
-                                      context,
-                                    );
-                                  },
-                                  deliveryTime: order.deliveryDate.toString(),
-                                  orderAmount: order.bidAmount.toString(),
-                                  onButtonPressed1: () async {},
-                                );
+                                if (widget.user.role == 'Brand') {
+                                  return BrandOrderCard(
+                                    title: influencer.name,
+                                    subtitle: order.remarks,
+                                    imageUrl: influencer.imageUrl != null &&
+                                            influencer.imageUrl!.isNotEmpty
+                                        ? influencer.imageUrl
+                                        : null,
+                                    deliveryTime: order.deliveryDate.toString(),
+                                    orderAmount: order.bidAmount.toString(),
+                                    status: order.status,
+
+                                    // Conditionally pass button names and callbacks
+                                    buttonName1: order.status == 'delivered'
+                                        ? 'Accept'
+                                        : null,
+                                    onButtonPressed1: order.status ==
+                                            'delivered'
+                                        ? () async {
+                                            await FirebaseFirestore.instance
+                                                .collection('Orders')
+                                                .doc(order.id)
+                                                .update(
+                                                    {'status': 'completed'});
+                                          }
+                                        : null,
+                                    buttonName2: order.status == 'delivered'
+                                        ? 'Revision'
+                                        : null,
+                                    onButtonPressed2: order.status ==
+                                            'delivered'
+                                        ? () async {
+                                            await FirebaseFirestore.instance
+                                                .collection('Orders')
+                                                .doc(order.id)
+                                                .update({'status': 'revision'});
+                                          }
+                                        : null,
+                                  );
+                                } else {
+                                  return OrderCard(
+                                    title: influencer.name,
+                                    subtitle: order.remarks,
+                                    imageUrl: influencer.imageUrl != null &&
+                                            influencer.imageUrl!.isNotEmpty
+                                        ? influencer.imageUrl
+                                        : null,
+                                    onButtonPressed2: () {
+                                      showOrderDelieverDialogue(context,
+                                          order: order);
+                                    },
+                                    deliveryTime: order.deliveryDate.toString(),
+                                    orderAmount: order.bidAmount.toString(),
+                                    onButtonPressed1: order.status,
+                                  );
+                                }
 
                                 // CampaignCard(
                                 //   image: influencer.imageUrl!,

@@ -1,11 +1,18 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:influencer/src/features/order/model/order_model.dart';
 
-showOrderDelieverDialogue(BuildContext context) async {
+import '../controller/delievery_order_controller.dart';
+import '../model/deliever_order_model.dart';
+
+showOrderDelieverDialogue(BuildContext context,
+    {required OrderModel order}) async {
   int selectedRating = 0; // default rating
   TextEditingController reviewController = TextEditingController();
   TextEditingController accountNumberController = TextEditingController();
   String? selectedFile;
+  final delieverController = Get.put(DelieveryOrderController());
 
   await showDialog(
     context: context,
@@ -62,6 +69,19 @@ showOrderDelieverDialogue(BuildContext context) async {
             TextButton(
               child: Text('Submit'),
               onPressed: () {
+                DelieverOrder delieverOrder = DelieverOrder(
+                  orderId: order.id!,
+                  receiverId: order.brandId,
+                  senderId: order.influencerId,
+                  status: 'delievered',
+                  rating: selectedRating.toDouble(),
+                  review: reviewController.text,
+                  createdAt: DateTime.now(),
+                  accountNumber: accountNumberController.text,
+                  fileAttachment: null,
+                );
+                delieverController.createDeliveryOrder(
+                    delieverOrder, selectedFile);
                 // Process the data
                 Navigator.of(context).pop();
               },
@@ -71,10 +91,4 @@ showOrderDelieverDialogue(BuildContext context) async {
       });
     },
   );
-
-  // Use the data from the modal
-  // print('Rating: $selectedRating');
-  print('Review: ${reviewController.text}');
-  print('Account Number: ${accountNumberController.text}');
-  print('Selected File: $selectedFile');
 }

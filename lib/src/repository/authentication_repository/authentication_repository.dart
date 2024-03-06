@@ -21,9 +21,18 @@ class AuthenticationRepository extends GetxController {
   _setIntialScreen(User? user) {
     //   Get.offAll(() => AdminDashboard());
     // }
-    user == null
-        ? Get.offAll(() => const LoginScreen())
-        : Get.offAll(() => MyHomePage());
+    User? user = FirebaseAuth.instance.currentUser;
+
+    if (user == null) {
+      // If no user is logged in, go to the LoginScreen
+      Get.offAll(() => const LoginScreen());
+    } else if (user.email == 'admin@gmail.com') {
+      // If the user is the admin, go to the AdminDashboard
+      Get.offAll(() => AdminDashboard());
+    } else {
+      // For any other authenticated user, go to MyHomePage
+      Get.offAll(() => MyHomePage());
+    }
   }
 
   @override
