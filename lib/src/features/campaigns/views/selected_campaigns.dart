@@ -4,7 +4,6 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../../../Utils/campaign_card.dart';
 import '../../../repository/campaign_repository.dart/campaign_repository.dart';
 import '../../users_profile/model/user_model.dart';
@@ -14,7 +13,10 @@ import 'campaign_detail.dart';
 class SelectedCampaigns extends StatefulWidget {
   final String? category;
 
-  const SelectedCampaigns({Key? key, this.category}) : super(key: key);
+  const SelectedCampaigns({
+    Key? key,
+    this.category,
+  }) : super(key: key);
 
   @override
   State<SelectedCampaigns> createState() => _SelectedCampaignsState();

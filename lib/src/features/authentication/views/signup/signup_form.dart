@@ -12,105 +12,55 @@ class SignupForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(SignupController());
+    final _formkey = GlobalKey<FormState>();
     return Form(
+        key: _formkey,
         child: Column(
-      children: [
-        TextFormField(
-          controller: controller.name,
-          decoration: const InputDecoration(
-            hintText: "Name",
-            prefixIcon: Icon(
-              Icons.person,
-              color: blackColor,
+          children: [
+            TextFormField(
+              controller: controller.email,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Email",
+                hintText: "Email",
+                prefixIcon: Icon(
+                  Icons.email,
+                ),
+              ),
             ),
-          ),
-        ),
-        const SizedBox(
-          height: smallSize,
-        ),
-        TextFormField(
-          controller: controller.username,
-          decoration: const InputDecoration(
-            hintText: "User Name",
-            prefixIcon: Icon(
-              Icons.person,
-              color: blackColor,
+            const SizedBox(
+              height: smallSize,
             ),
-          ),
-        ),
-        const SizedBox(
-          height: smallSize,
-        ),
-        TextFormField(
-          controller: controller.email,
-          decoration: const InputDecoration(
-            hintText: "Email",
-            prefixIcon: Icon(
-              Icons.email,
-              color: blackColor,
+            TextFormField(
+              controller: controller.password,
+              decoration: const InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: "Password",
+                hintText: "Password",
+                prefixIcon: Icon(
+                  Icons.fingerprint,
+                ),
+                suffixIcon: Icon(
+                  Icons.remove_red_eye_sharp,
+                ),
+              ),
             ),
-          ),
-        ),
-        const SizedBox(
-          height: smallSize,
-        ),
-        TextFormField(
-          controller: controller.phonenumber,
-          decoration: const InputDecoration(
-            hintText: "Phone",
-            prefixIcon: Icon(
-              Icons.phone,
-              color: blackColor,
+            const SizedBox(
+              height: smallSize,
             ),
-          ),
-        ),
-        const SizedBox(
-          height: smallSize,
-        ),
-        TextFormField(
-          controller: controller.password,
-          decoration: const InputDecoration(
-            hintText: "Password",
-            prefixIcon: Icon(
-              Icons.fingerprint,
-              color: blackColor,
+            const SizedBox(
+              height: smallSize - 10,
             ),
-            suffixIcon: Icon(
-              Icons.remove_red_eye_sharp,
-              color: Colors.black,
-            ),
-          ),
-        ),
-        // Row(
-        //   children: <Widget>[
-        //     ListTile(title: Text("Influencer"),
-        //   leading: Radio<SingingCharacter>(
-        //     value: SingingCharacter.lafayette,
-        //     groupValue: _character,
-        //     onChanged: (SingingCharacter? value) {
-        //       setState(() {
-        //         _character = value;
-        //       });
-        //     },
-        //     )
-        //   ],
-        // ),
-
-        const SizedBox(
-          height: smallSize - 10,
-        ),
-        SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-                onPressed: () {
-                  SignupController.instance.registerUser(
-                      controller.email.text.trim(), controller.password.text);
-                },
-                child: const Text("Sign Up"))),
-        const SizedBox(
-          height: smallSize,
-        ),
-      ],
-    ));
+            SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () {
+                      SignupController.instance.registerUser(
+                          controller.email.text.trim(),
+                          controller.password.text);
+                    },
+                    child: const Text("Signup"))),
+          ],
+        ));
   }
 }

@@ -13,7 +13,8 @@ import '../users_profile/controller/profile_controller.dart';
 import '../users_profile/views/view_profile.dart';
 
 class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({Key? key}) : super(key: key);
+  ProfileModel userModel;
+  DashboardScreen({Key? key, required this.userModel}) : super(key: key);
 
   @override
   State<DashboardScreen> createState() => _DashboardScreenState();
@@ -22,7 +23,10 @@ class DashboardScreen extends StatefulWidget {
 class _DashboardScreenState extends State<DashboardScreen> {
   final controller = Get.put(ProfileController());
   final _authRepo = Get.put(AuthenticationRepository());
+  ProfileModel? userData;
   late String uid;
+  bool isLoading = true;
+  String? errorMessage;
   @override
   void initState() {
     super.initState();
@@ -33,8 +37,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final db =
-        FirebaseFirestore.instance.collection('Influencers').get().asStream();
+    Stream<QuerySnapshot<Map<String, dynamic>>> db;
+
+    if (widget.userModel.role == 'Brand') {
+      db = FirebaseFirestore.instance
+          .collection('Influencers')
+          .orderBy('Rating', descending: true)
+          .snapshots();
+    } else {
+      db = FirebaseFirestore.instance
+          .collection('Brands')
+          .orderBy('Rating', descending: true)
+          .snapshots();
+    }
+
     final db_categories =
         FirebaseFirestore.instance.collection('Categories').get().asStream();
 
@@ -56,9 +72,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData && snapshot.data is ProfileModel) {
-                  ProfileModel userData = snapshot.data as ProfileModel;
-                  print("user data name ${userData.name}");
-                  return MyDrawer(userData);
+                  ProfileModel user = snapshot.data as ProfileModel;
+                  print("user data name ${user.name}");
+                  return MyDrawer(user);
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Text('${snapshot.error.toString()} '),
@@ -73,164 +89,169 @@ class _DashboardScreenState extends State<DashboardScreen> {
               }
             }),
         body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  children: [
-                    Text('Find',
-                        style: TextStyle(
-                            fontFamily: GoogleFonts.ubuntu.toString(),
-                            fontSize: 32)),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    Text('Influencer',
-                        style: TextStyle(
-                            fontFamily: GoogleFonts.ubuntu.toString(),
-                            color: const Color(0xFF75BD78),
-                            fontSize: 32)),
-                  ],
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(padding: EdgeInsets.only(top: 80)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    children: [
+                      Text('Find',
+                          style: TextStyle(
+                              fontFamily: GoogleFonts.ubuntu.toString(),
+                              fontSize: 32)),
+                      const SizedBox(
+                        width: 4,
+                      ),
+                      Text(
+                          widget.userModel.role == 'Influencer'
+                              ? 'Campaigns'
+                              : 'Influencers',
+                          style: TextStyle(
+                              fontFamily: GoogleFonts.ubuntu.toString(),
+                              color: const Color(0xFF75BD78),
+                              fontSize: 32)),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 18,
-              ),
-              CustomSearchField(),
-              const SizedBox(
-                height: 35,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Categories',
-                        style: TextStyle(
-                            fontFamily: GoogleFonts.ubuntu.toString(),
-                            fontSize: 16)),
-                    Text('See All',
-                        style: TextStyle(
-                            fontFamily: GoogleFonts.ubuntu.toString(),
-                            color: Color(0xFF75BD78),
-                            fontSize: 16)),
-                  ],
+                const SizedBox(
+                  height: 18,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                  stream: db_categories,
-                  builder: (BuildContext context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (snapshot.hasError) {
-                      return Text(snapshot.error.toString());
-                    } else {
-                      final data = snapshot.data?.docs;
-                      return GestureDetector(
-                        child: Container(
-                          height: 120,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: data!.length,
-                            itemBuilder: (BuildContext context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Get.to(SelectedCampaigns(
-                                    category: data[index]["Category"],
-                                  ));
-                                },
-                                child: CategoryCard(
-                                    path: data[index]['ImageUrl'],
-                                    text: data[index]["Category"]),
-                              );
-                            },
+                CustomSearchField(user: widget.userModel),
+                const SizedBox(
+                  height: 35,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Categories',
+                          style: TextStyle(
+                              fontFamily: GoogleFonts.ubuntu.toString(),
+                              fontSize: 16)),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                    stream: db_categories,
+                    builder: (BuildContext context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text(snapshot.error.toString());
+                      } else {
+                        final data = snapshot.data?.docs;
+                        return GestureDetector(
+                          child: Container(
+                            height: 120,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: data!.length,
+                              itemBuilder: (BuildContext context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    Get.to(SelectedCampaigns(
+                                      category: data[index]["Category"],
+                                    ));
+                                  },
+                                  child: CategoryCard(
+                                      path: data[index]['ImageUrl'],
+                                      text: data[index]["Category"]),
+                                );
+                              },
+                            ),
                           ),
+                        );
+                      }
+                    }),
+                const SizedBox(
+                  height: 11,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          widget.userModel.role == 'Influencer'
+                              ? 'Top Brands'
+                              : 'Top Influencers',
+                          style: TextStyle(
+                              fontFamily: GoogleFonts.ubuntu.toString(),
+                              fontSize: 16)),
+                      // Text('See All',
+                      //     style: TextStyle(
+                      //         fontFamily: GoogleFonts.ubuntu.toString(),
+                      //         color: Color(0xFF75BD78),
+                      //         fontSize: 16)),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                  stream: db,
+                  builder: (context,
+                      AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
+                          snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      // Handle the loading state
+                      return const CircularProgressIndicator();
+                    } else if (snapshot.hasError) {
+                      // Handle the error state
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      // Data is ready
+                      final data = snapshot
+                          .data?.docs; // Explicitly cast to QuerySnapshot
+                      return Container(
+                        height: 280,
+                        width: MediaQuery.of(context).size.width,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: data?.length,
+                          itemBuilder: (BuildContext context, index) {
+                            // Use data[index] to access individual documents
+                            final document = data?[index];
+                            return Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: InkWell(
+                                onTap: () {
+                                  final documentSnapshot = document
+                                      as DocumentSnapshot<Map<String, dynamic>>;
+                                  final profileModel =
+                                      ProfileModel.fromSnapshot(
+                                          documentSnapshot);
+                                  Get.to(
+                                      () => ViewProfile(profile: profileModel));
+                                },
+                                child: InfluencerCard(
+                                  path: document?['ImageUrl'] ?? '',
+                                  category: document?['Role'] ?? "",
+                                  rating: '4.5',
+                                  name: document?['Name'] ?? "",
+                                  order: document?["Role"],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       );
                     }
-                  }),
-              const SizedBox(
-                height: 11,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Top Influencers',
-                        style: TextStyle(
-                            fontFamily: GoogleFonts.ubuntu.toString(),
-                            fontSize: 16)),
-                    Text('See All',
-                        style: TextStyle(
-                            fontFamily: GoogleFonts.ubuntu.toString(),
-                            color: Color(0xFF75BD78),
-                            fontSize: 16)),
-                  ],
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                stream: db,
-                builder: (context,
-                    AsyncSnapshot<QuerySnapshot<Map<String, dynamic>>>
-                        snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    // Handle the loading state
-                    return const CircularProgressIndicator();
-                  } else if (snapshot.hasError) {
-                    // Handle the error state
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    // Data is ready
-                    final data =
-                        snapshot.data?.docs; // Explicitly cast to QuerySnapshot
-                    return Container(
-                      height: 280,
-                      width: MediaQuery.of(context).size.width,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: data?.length,
-                        itemBuilder: (BuildContext context, index) {
-                          // Use data[index] to access individual documents
-                          final document = data?[index];
-                          return Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: InkWell(
-                              onTap: () {
-                                final documentSnapshot = document
-                                    as DocumentSnapshot<Map<String, dynamic>>;
-                                final profileModel =
-                                    ProfileModel.fromSnapshot(documentSnapshot);
-                                Get.to(
-                                    () => ViewProfile(profile: profileModel));
-                              },
-                              child: InfluencerCard(
-                                path: document?['ImageUrl'] ?? '',
-                                category: document?['Role'] ?? "",
-                                rating: '4.5',
-                                name: document?['Name'] ?? "",
-                                order: '63',
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  }
-                },
-              )
-            ],
+                  },
+                )
+              ],
+            ),
           ),
         ));
   }

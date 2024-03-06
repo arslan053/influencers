@@ -75,10 +75,10 @@ class InfluencerCard extends StatelessWidget {
                 SizedBox(
                   height: 4,
                 ),
-                Text(
-                  '$order order completed',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
-                ),
+                // Text(
+                //   '$order order completed',
+                //   style: TextStyle(fontSize: 12, color: Colors.grey),
+                // ),
               ],
             ),
           )

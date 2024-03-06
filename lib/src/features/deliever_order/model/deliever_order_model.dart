@@ -15,7 +15,7 @@ class DelieverOrder {
     required this.orderId,
     required this.receiverId,
     required this.senderId,
-    this.status = 'pending',
+    this.status = 'delieverd',
     this.rating = 0,
     this.review = '',
     required this.createdAt,

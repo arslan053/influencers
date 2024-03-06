@@ -1,24 +1,30 @@
 import 'package:flutter/material.dart';
 
-class OrderCard extends StatelessWidget {
+class BrandOrderCard extends StatelessWidget {
   String? imageUrl;
   final String title;
   final String subtitle;
   final String deliveryTime;
   final String orderAmount;
-  final String onButtonPressed1;
+  final String? buttonName1;
+  final VoidCallback? onButtonPressed1;
+  final String? buttonName2;
   final VoidCallback? onButtonPressed2;
+  String status;
 
-  OrderCard({
+  BrandOrderCard({
     Key? key,
     this.imageUrl,
     required this.title,
     required this.subtitle,
     required this.deliveryTime,
     required this.orderAmount,
-    required this.onButtonPressed1,
+    required this.status,
+    this.buttonName1,
+    this.onButtonPressed1,
+    this.buttonName2,
     this.onButtonPressed2,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,17 +62,17 @@ class OrderCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(onButtonPressed1),
-                // TextButton(
-                //   child: Text("Accept"),
-                //   onPressed: onButtonPressed1,
-                // ),
-                const SizedBox(width: 8),
-                TextButton(
-                  child: Text("Submit"),
-                  onPressed: onButtonPressed2,
-                ),
-                const SizedBox(width: 8),
+                Text(status),
+                if (buttonName1 != null && onButtonPressed1 != null)
+                  TextButton(
+                    child: Text(buttonName1!),
+                    onPressed: onButtonPressed1,
+                  ),
+                if (buttonName2 != null && onButtonPressed2 != null)
+                  TextButton(
+                    child: Text(buttonName2!),
+                    onPressed: onButtonPressed2,
+                  ),
               ],
             ),
           ],
@@ -77,18 +83,10 @@ class OrderCard extends StatelessWidget {
 
   String calculateRemainingTime(String deliveryTime) {
     DateTime now = DateTime.now();
-
-    // Extract the date part and convert it to DateTime
     DateTime deliveryDate = DateTime.parse(deliveryTime);
-
-    // Calculate the difference
     Duration difference = deliveryDate.difference(now);
-
-    // Extract remaining days and hours
     int remainingDays = difference.inDays;
     int remainingHours = difference.inHours.remainder(24);
-
-    // Format the result
     return '$remainingDays days and $remainingHours hours remaining';
   }
 }

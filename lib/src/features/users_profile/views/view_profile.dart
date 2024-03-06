@@ -73,19 +73,19 @@ class ViewProfile extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
-                    'Instagram Insight',
-                    style: TextStyle(
-                        fontFamily: GoogleFonts.ubuntu.toString(),
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600),
-                  )),
-              const SizedBox(
-                height: 8,
-              ),
-              const ProfileCard(),
+              // Align(
+              //     alignment: Alignment.bottomLeft,
+              //     child: Text(
+              //       'Instagram Insight',
+              //       style: TextStyle(
+              //           fontFamily: GoogleFonts.ubuntu.toString(),
+              //           fontSize: 18,
+              //           fontWeight: FontWeight.w600),
+              //     )),
+              // const SizedBox(
+              //   height: 8,
+              // ),
+              // const ProfileCard(),
               const SizedBox(
                 height: 20,
               ),
@@ -231,3 +231,33 @@ class ViewProfile extends StatelessWidget {
     );
   }
 }
+
+// FutureBuilder<List<ReviewModel>>(
+//     future: fetchReviews(), // your function to fetch reviews
+//     builder: (context, snapshot) {
+//       if (snapshot.connectionState == ConnectionState.waiting) {
+//         return CircularProgressIndicator(); // Show a loading indicator
+//       } else if (snapshot.hasError) {
+//         return Text('Error: ${snapshot.error}'); // Show error message
+//       } else if (snapshot.hasData) {
+//         // Data is fetched successfully, build the list
+//         return ListView.builder(
+//           itemCount: snapshot.data!.length, // Use the length of received data
+//           itemBuilder: (context, index) {
+//             ReviewModel review = snapshot.data![index];
+//             return ListTile(
+//               leading: Container(
+//                 height: 30,
+//                 width: 30,
+//                 child: Image.asset('assets/images/celebrity.png'),
+//               ),
+//               title: Text(review.title), // Replace with actual data fields
+//               subtitle: Text(review.description), // Replace with actual data fields
+//               // Add other data presentation logic here
+//             );
+//           },
+//         );
+//       } else {
+//         return Text('No reviews found'); // Handle the case of no data
+//       }
+//     },

@@ -49,24 +49,6 @@ class LoginForm extends StatelessWidget {
             const SizedBox(
               height: smallSize,
             ),
-            const Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  "Forget Password",
-                )),
-            const SizedBox(
-              height: smallSize - 10,
-            ),
-            SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                    onPressed: () {
-                      if (_formkey.currentState!.validate()) {
-                        SigninController.instance.signinUser(
-                            controller.email.text, controller.password.text);
-                      }
-                    },
-                    child: const Text("Login"))),
             Align(
                 alignment: Alignment.centerRight,
                 child: InkWell(
@@ -87,6 +69,19 @@ class LoginForm extends StatelessWidget {
                     ],
                   ),
                 )),
+            const SizedBox(
+              height: smallSize - 10,
+            ),
+            SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                    onPressed: () {
+                      if (_formkey.currentState!.validate()) {
+                        SigninController.instance.signinUser(
+                            controller.email.text, controller.password.text);
+                      }
+                    },
+                    child: const Text("Login"))),
           ],
         ));
   }

@@ -40,7 +40,6 @@ class _MessageScreenState extends State<MessageScreen> {
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [
-              CustomSearchField(),
               SizedBox(
                 height: 20,
               ),
@@ -73,7 +72,9 @@ class _MessageScreenState extends State<MessageScreen> {
                                   builder: (context, userSnapshot) {
                                     if (userSnapshot.connectionState ==
                                         ConnectionState.waiting) {
-                                      return CircularProgressIndicator(); // Or some placeholder
+                                      return Center(
+                                          child:
+                                              CircularProgressIndicator()); // Or some placeholder
                                     }
 
                                     if (userSnapshot.hasError) {
@@ -82,7 +83,7 @@ class _MessageScreenState extends State<MessageScreen> {
                                     }
 
                                     if (!userSnapshot.hasData) {
-                                      return Text('User details not available');
+                                      return Text('User Chat not available');
                                     }
                                     ProfileModel? otherUserDetails =
                                         userSnapshot.data;

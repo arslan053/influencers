@@ -21,12 +21,13 @@ class CampaignCard extends StatelessWidget {
       padding: const EdgeInsets.all(6.0),
       child: ListTile(
         textColor: Colors.black,
-        leading: CircleAvatar(
-          child: Image.asset(
-            image,
-            fit: BoxFit.contain,
-          ),
-        ),
+        leading: Icon(Icons.campaign),
+        // CircleAvatar(
+        //   child: Image.asset(
+        //     image,
+        //     fit: BoxFit.contain,
+        //   ),
+        // ),
         title: Text(title_text),
         subtitle: Text(subtitle_text),
         trailing: Text(category),
